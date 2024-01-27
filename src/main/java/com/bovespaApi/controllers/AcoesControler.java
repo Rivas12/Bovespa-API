@@ -1,5 +1,7 @@
 package com.bovespaApi.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -106,9 +108,40 @@ public class AcoesControler {
         return jsonData;
     }
 
-    // Retorna uma lista Json contendo estatisticas de papeis do setor
+    @GetMapping("/papeis/setor/{setor}")
+    public List<String> getPapeisPorSetor(@PathVariable String setor) throws IOException {
+        // URL do site da tabela
+        String url = "https://www.fundamentus.com.br/resultado.php?setor=" + setor;
+
+        // Conectar ao site e obter o HTML
+        Document document = Jsoup.connect(url).get();
+
+        // Selecionar a tabela
+        Element table = document.select("table").first();
+
+        // Criar uma lista para armazenar os dados da tabela
+        List<String> listData = new ArrayList<>();
+
+        // Verificar se a tabela foi encontrada
+        if (table != null) {
+            // Obter todas as linhas da tabela
+            Elements linhas_table = table.select("tbody tr");
+
+            // Itere sobre as linhas da tabela
+            for (Element linha : linhas_table) {
+                // Obtenha a célula da linha
+                Elements celula = linha.select("td");
+
+                // Retira o texto do HTML e adiciona o papel à lista
+                listData.add(celula.get(0).text());
+            }
+        }
+        // Retornar lista
+        return listData;
+    }
+
     @GetMapping("/papeis/setor/{setor}/estatisticas")
-    public  List<Map<String, String>> getPapeisPorSetor(@PathVariable String setor) throws IOException {
+    public  List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php?setor=" + setor;
 
@@ -165,3 +198,4 @@ public class AcoesControler {
         return jsonData;
     }
 }
+
