@@ -26,6 +26,7 @@ public class AcoesControler {
     public AcoesControler(AcoesService acoesService) {
         this.acoesService = acoesService;
     }
+
     @GetMapping("/papeis")
     public List<String> getPapeis() throws IOException {
         return acoesService.getPapeis();
@@ -35,6 +36,10 @@ public class AcoesControler {
     @GetMapping("/papeis/estatisticas")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
         return acoesService.getPapeisEstatisticas();
+    }
+    @GetMapping("/papeis/ordernar/{chave}")
+    public List<Map<String, String>> getPapelPorOrdem(@PathVariable String chave) throws IOException {
+        return acoesService.getPapelPorOrdem(chave);
     }
 
     @GetMapping("/papeis/setor/{setor}")
@@ -51,5 +56,6 @@ public class AcoesControler {
     public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
         return acoesService.getPapelEstatisticas(papel.toUpperCase());
     }
+
 }
 
