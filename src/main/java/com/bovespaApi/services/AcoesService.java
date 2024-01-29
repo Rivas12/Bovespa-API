@@ -73,6 +73,7 @@ public class AcoesService {
 
                 // Adicione os dados ao mapa
                 rowMap.put("Papel", celula.get(0).text());
+                rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
                 rowMap.put("Cotação", celula.get(1).text());
                 rowMap.put("P/L", celula.get(2).text());
                 rowMap.put("PV/P", celula.get(3).text());
@@ -161,6 +162,7 @@ public class AcoesService {
 
                 // Adicione os dados ao mapa
                 rowMap.put("Papel", celula.get(0).text());
+                rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
                 rowMap.put("Cotação", celula.get(1).text());
                 rowMap.put("P/L", celula.get(2).text());
                 rowMap.put("PV/P", celula.get(3).text());
@@ -220,6 +222,7 @@ public class AcoesService {
 
                     // Adicione os dados ao mapa
                     rowMap.put("Papel", celula.get(0).text());
+                    rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
                     rowMap.put("Cotação", celula.get(1).text());
                     rowMap.put("P/L", celula.get(2).text());
                     rowMap.put("PV/P", celula.get(3).text());
