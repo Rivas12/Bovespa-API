@@ -56,6 +56,10 @@ public class AcoesControler {
         return acoesService.getPapelEstatisticas(papel.toUpperCase());
     }
 
+    @GetMapping("/papeis/pesquisa/{termo}")
+    public  List<Map<String, String>> getPapeisPesquisa(@PathVariable String termo) throws IOException {
+        return acoesService.getPapeisPesquisa(termo);
+    }
 
 }
 
