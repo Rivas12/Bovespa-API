@@ -32,7 +32,6 @@ public class AcoesControler {
         return acoesService.getPapeis();
     }
 
-
     @GetMapping("/papeis/estatisticas")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
         return acoesService.getPapeisEstatisticas();
@@ -56,6 +55,7 @@ public class AcoesControler {
     public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
         return acoesService.getPapelEstatisticas(papel.toUpperCase());
     }
+
 
 }
 

@@ -6,25 +6,31 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.util.*;
 
 @Service
+// Para evitar retornos de dados irrelevantes, as empresas que não foram negociadas nos últimos 2 meses na bolsa foram excluídas desta API
+// Todas as requisições feitas são enviadas com um parâmetro 'negociada' (ON) para filtrar essas empresas irrelevantes
 public class AcoesService {
 
+    // Retorna todos os papeis da bolsa
     public List<String> getPapeis() throws IOException {
+
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Conectar ao site e obter o HTML
-        Document document = Jsoup.connect(url).get();
+        // Criar uma conexão e passa parâmetros
+        Connection connection = Jsoup.connect(url).data("negociada", "ON");
 
-        // Selecionar a tabela
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
+
+        // Seleciona a tabela
         Element table = document.select("table").first();
 
-        // Criar uma lista para armazenar os dados da tabela
+        // Cria uma lista para armazenar os dados da tabela
         List<String> listData = new ArrayList<>();
 
         // Verificar se a tabela foi encontrada
@@ -32,12 +38,12 @@ public class AcoesService {
             // Obter todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
-            // Itere sobre as linhas da tabela
+            // Itera sobre as linhas da tabela
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Obtém a célula da linha
                 Elements celula = linha.select("td");
 
-                // Retira o texto do HTML e adiciona o papel à lista
+                // Retira o papel do HTML e adiciona à lista
                 listData.add(celula.get(0).text());
             }
         }
@@ -45,33 +51,38 @@ public class AcoesService {
         return listData;
     }
 
+    // Retorna todos os papéis junto com os indicadores
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
+
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Conectar ao site e obter o HTML
-        Document document = Jsoup.connect(url).get();
+        // Criar uma conexão e passa parâmetros
+        Connection connection = Jsoup.connect(url).data("negociada", "ON");
 
-        // Selecionar a tabela
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
+
+        // Seleciona a tabela
         Element table = document.select("table").first();
 
-        // Criar uma lista para armazenar os dados da tabela
+        // Cria uma lista para armazenar os dados da tabela
         List<Map<String, String>> jsonData = new ArrayList<>();
 
-        // Verifique se a tabela foi encontrada
+        // Verifica se a tabela foi encontrada
         if (table != null) {
-            // Obter todas as linhas da tabela
+            // Obtém todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
-            // Iterar sobre as linhas da tabela
+            // Itera sobre as linhas da tabela
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Obtém a célula da linha
                 Elements celula = linha.select("td");
 
-                // Criar um mapa para representar a linha
+                // Cria um mapa para representar a linha
                 Map<String, String> rowMap = new LinkedHashMap<>();
 
-                // Adicione os dados ao mapa
+                // Adiciona os dados ao mapa
                 rowMap.put("Papel", celula.get(0).text());
                 rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
                 rowMap.put("Cotação", celula.get(1).text());
@@ -95,7 +106,7 @@ public class AcoesService {
                 rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
                 rowMap.put("Cresc. Rec.5a", celula.get(20).text());
 
-                // Adicione o mapa à lista
+                // Adiciona o mapa à lista
                 jsonData.add(rowMap);
             }
         }
@@ -103,30 +114,36 @@ public class AcoesService {
         return jsonData;
     }
 
+    // Retorna todos os papeis por setor
     public List<String> getPapeisPorSetor(String setor) throws IOException {
+
         // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php?setor=" + setor;
+        String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Conectar ao site e obter o HTML
-        Document document = Jsoup.connect(url).get();
+        // Criar uma conexão e passa parâmetros
+        // Cada setor tem uma chave própria; Na documentação tem todos os setores por número
+        Connection connection = Jsoup.connect(url).data("setor", setor).data("negociada", "ON");
 
-        // Selecionar a tabela
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
+
+        // Seleciona a tabela
         Element table = document.select("table").first();
 
-        // Criar uma lista para armazenar os dados da tabela
+        // Cria uma lista para armazenar os dados da tabela
         List<String> listData = new ArrayList<>();
 
-        // Verificar se a tabela foi encontrada
+        // Verifica se a tabela foi encontrada
         if (table != null) {
             // Obter todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
-            // Itere sobre as linhas da tabela
+            // Itera sobre as linhas da tabela
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Obtém a célula da linha
                 Elements celula = linha.select("td");
 
-                // Retira o texto do HTML e adiciona o papel à lista
+                // Retira o nome da EMPRESA do HTML e adiciona o papel à lista
                 listData.add(celula.get(0).text());
             }
         }
@@ -134,27 +151,35 @@ public class AcoesService {
         return listData;
     }
 
+    // Retorna todos os papeis junto com os indicadores
     public List<Map<String, String>> getPapeisPorSetorEstatisticas(String setor) throws IOException {
+
         // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php?setor=" + setor;
+        String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Conectar ao site e obter o HTML
-        Document document = Jsoup.connect(url).get();
+        // Criar uma conexão e passa parâmetros
+        // Cada setor tem uma chave própria; na documentação tem todos os setores por número
+        // A chave 'negociada' significa que a ação foi negociada nos últimos 2 meses na bolsa
+        Connection connection = Jsoup.connect(url).data("setor", setor).data("negociada", "ON");
 
-        // Selecionar a tabela
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
+
+        // Seleciona a tabela
         Element table = document.select("table").first();
 
-        // Criar uma lista para armazenar os dados da tabela
+        // Cria uma lista para armazenar os dados da tabela
         List<Map<String, String>> jsonData = new ArrayList<>();
 
-        // Verifique se a tabela foi encontrada
+        // Verifica se a tabela foi encontrada
         if (table != null) {
-            // Obter todas as linhas da tabela
+            // Obtém todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
-            // Iterar sobre as linhas da tabela
+            // Itera sobre as linhas da tabela
+            // O HTML já retorna todos os dados do setor que foram passados, portanto, não é necessário adicionar uma condição
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Obtenha a célula da linha(tr)
                 Elements celula = linha.select("td");
 
                 // Criar um mapa para representar a linha
@@ -192,32 +217,39 @@ public class AcoesService {
         return jsonData;
     }
 
+    // Retorna um papel que foi passado por parâmetro, juntamente com os indicadores
     public List<Map<String, String>> getPapelEstatisticas(String papel) throws IOException {
+
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Conectar ao site e obter o HTML
-        Document document = Jsoup.connect(url).get();
+        // Criar uma conexão e passa parâmetros
+        Connection connection = Jsoup.connect(url).data("negociada", "ON");
+
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
 
         // Selecionar a tabela
         Element table = document.select("table").first();
 
-        // Criar uma lista para armazenar os dados da tabela
+        // Cria uma lista para armazenar os dados da tabela
         List<Map<String, String>> jsonData = new ArrayList<>();
 
-        // Verifique se a tabela foi encontrada
+        // Verifica se a tabela foi encontrada
         if (table != null) {
-            // Obter todas as linhas da tabela
+
+            // Obtém todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
             // Iterar sobre as linhas da tabela
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Obtém a célula da linha
                 Elements celula = linha.select("td");
 
-                // Condição para checar se o papel descrito na URL é igual ao da linha da TABLE
+                // Aqui é a condição para verificar se o papel descrito na URL é igual ao da linha da TABLE
                 if (celula.get(0).text().equals(papel)) {
-                    // Criar um mapa para representar a linha
+
+                    // Cria um mapa para representar a linha(tr)
                     Map<String, String> rowMap = new LinkedHashMap<>();
 
                     // Adicione os dados ao mapa
@@ -244,7 +276,7 @@ public class AcoesService {
                     rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
                     rowMap.put("Cresc. Rec.5a", celula.get(20).text());
 
-                    // Adicione o mapa à lista
+                    // Adiciona o mapa à lista
                     jsonData.add(rowMap);
 
                     // Finaliza o For para retornar mais rapidamente
@@ -256,18 +288,18 @@ public class AcoesService {
         return jsonData;
     }
 
+    // Retorna todos os papéis pela ordem do indicador que foi passado
     public List<Map<String, String>> getPapelPorOrdem(String chave) throws IOException {
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
 
-        // Criar um mapa de parâmetros (chaves e valores)
+        // Criar uma conexão e passa parâmetros
+        // Cada ordem tem uma chave própria, documentação tem todas as ordens por número
         Connection connection = Jsoup.connect(url).data("ordem", chave).data("negociada", "ON");
 
-        // Conectar ao site e obter o HTML
+        // Conecta ao site via POST e obtém o HTML
         Document document = connection.post();
-
-        System.out.println(document);
 
         // Selecionar a tabela
         Element table = document.select("table").first();
@@ -275,20 +307,20 @@ public class AcoesService {
         // Criar uma lista para armazenar os dados da tabela
         List<Map<String, String>> jsonData = new ArrayList<>();
 
-        // Verifique se a tabela foi encontrada
+        // Verifica se a tabela foi encontrada
         if (table != null) {
-            // Obter todas as linhas da tabela
+            // Obtém todas as linhas(tr) da tabela
             Elements linhas_table = table.select("tbody tr");
 
             // Iterar sobre as linhas da tabela
             for (Element linha : linhas_table) {
-                // Obtenha a célula da linha
+                // Célula da linha(tr) do HTML
                 Elements celula = linha.select("td");
 
-                // Criar um mapa para representar a linha
+                // Mapa para representar a linha
                 Map<String, String> rowMap = new LinkedHashMap<>();
 
-                // Adicione os dados ao mapa
+                // Adiciona os dados ao Map,
                 rowMap.put("Papel", celula.get(0).text());
                 rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
                 rowMap.put("Cotação", celula.get(1).text());
@@ -319,5 +351,6 @@ public class AcoesService {
         // Retornar lista em json
         return jsonData;
     }
+
 
 }
