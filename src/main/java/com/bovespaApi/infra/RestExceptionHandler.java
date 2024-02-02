@@ -12,8 +12,9 @@ import java.net.UnknownHostException;
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(UnknownHostException.class)
-    public ResponseEntity<String> siteNaoEncontradoHandler(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Site não encontrado, verifique se escreveu o endereço corretamente");
+    private ResponseEntity<RestErrorMessage> siteNaoEncontradoHandler(Exception ex) {
+        RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Site não encontrado, verifique se escreveu o endereço corretamente");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(threatresponse);
     }
 
 }

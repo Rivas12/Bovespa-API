@@ -65,7 +65,7 @@ public class AcoesService {
     public List<String> getPapeis() throws IOException {
 
         // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php";
+        String url = "https://www.fundentus.com.br/resultado.php";
 
         // Criar uma conexão e passa parâmetros
         Connection connection = Jsoup.connect(url).data("negociada", "ON");
