@@ -8,11 +8,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -98,7 +93,7 @@ public class AcoesService {
     }
 
     // Retorna todos os papéis junto com os indicadores
-    public List<Map<String, String>> getPapeisEstatisticas() throws IOException{
+    public List<Map<String, String>> getPapeisComIndicadores() throws IOException{
 
         List<Map<String, String>> data = new ArrayList<>();
 
@@ -169,7 +164,7 @@ public class AcoesService {
     }
 
     // Retorna todos os papeis junto com os indicadores
-    public List<Map<String, String>> getPapeisPorSetorEstatisticas(String setor) throws IOException {
+    public List<Map<String, String>> getPapeisPorSetorComIndicadores(String setor) throws IOException {
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
@@ -208,7 +203,7 @@ public class AcoesService {
     }
 
     // Retorna um papel que foi passado por parâmetro, juntamente com os indicadores
-    public List<Map<String, String>> getPapelEstatisticas(String papel) throws IOException {
+    public List<Map<String, String>> getPapelComIndicadores(String papel) throws IOException {
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
