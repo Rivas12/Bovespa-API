@@ -11,10 +11,48 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.*;
 
-@Service
 // Para evitar retornos de dados irrelevantes, as empresas que não foram negociadas nos últimos 2 meses na bolsa foram excluídas desta API
 // Todas as requisições feitas são enviadas com um parâmetro 'negociada' (ON) para filtrar essas empresas irrelevantes
+@Service
 public class AcoesService {
+
+    // SOLID - Single Responsibility Principle
+    // Aqui realiza é setagem de linha(tr) da tabela no Json
+    // A regra de negócio é separada do método principal
+    private void setarDadoDaTabelaNoJson(Elements linha, List<Map<String, String>> data) {
+
+        // Cria um mapa para representar a linha
+        Map<String, String> rowMap = new LinkedHashMap<>();
+
+        // Adiciona os dados ao mapa
+        rowMap.put("Papel", linha.get(0).text());
+        rowMap.put("Empresa", linha.get(0).select("span").attr("title"));
+        rowMap.put("Cotação", linha.get(1).text());
+        rowMap.put("P/L", linha.get(2).text());
+        rowMap.put("PV/P", linha.get(3).text());
+        rowMap.put("PSR", linha.get(4).text());
+        rowMap.put("Div.Yield", linha.get(5).text());
+        rowMap.put("P/Ativo", linha.get(6).text());
+        rowMap.put("P/Cap.Giro", linha.get(7).text());
+        rowMap.put("P/EBIT", linha.get(8).text());
+        rowMap.put("P/Ativo Circ.Liq", linha.get(9).text());
+        rowMap.put("EV/EBIT", linha.get(10).text());
+        rowMap.put("EV/EBITDA", linha.get(11).text());
+        rowMap.put("Mrg Ebit", linha.get(12).text());
+        rowMap.put("Mrg. Líq.", linha.get(13).text());
+        rowMap.put("Liq. Corr.", linha.get(14).text());
+        rowMap.put("ROIC", linha.get(15).text());
+        rowMap.put("ROE", linha.get(16).text());
+        rowMap.put("Liq.2meses", linha.get(17).text());
+        rowMap.put("Patrim. Líq", linha.get(18).text());
+        rowMap.put("Dív.Brut/ Patrim.", linha.get(19).text());
+        rowMap.put("Cresc. Rec.5a", linha.get(20).text());
+
+        // Adiciona o mapa à lista
+        data.add(rowMap);
+    }
+
+
 
     // Retorna todos os papeis da bolsa
     public List<String> getPapeis() throws IOException {
@@ -53,7 +91,9 @@ public class AcoesService {
     }
 
     // Retorna todos os papéis junto com os indicadores
-    public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
+    public List<Map<String, String>> getPapeisEstatisticas() throws IOException{
+
+        List<Map<String, String>> data = new ArrayList<>();
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
@@ -66,53 +106,22 @@ public class AcoesService {
 
         // Seleciona a tabela
         Element table = document.select("table").first();
-
-        // Cria uma lista para armazenar os dados da tabela
-        List<Map<String, String>> jsonData = new ArrayList<>();
-
-        // Verifica se a tabela foi encontrada
         if (table != null) {
             // Obtém todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
+            Elements linhas_tabela = table.select("tbody tr");
 
-            // Itera sobre as linhas da tabela
-            for (Element linha : linhas_table) {
+            // Seta os dados da tabela no Json
+            for (Element linha : linhas_tabela) {
                 // Obtém a célula da linha
-                Elements celula = linha.select("td");
+                Elements linha_tr = linha.select("td");
 
-                // Cria um mapa para representar a linha
-                Map<String, String> rowMap = new LinkedHashMap<>();
-
-                // Adiciona os dados ao mapa
-                rowMap.put("Papel", celula.get(0).text());
-                rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
-                rowMap.put("Cotação", celula.get(1).text());
-                rowMap.put("P/L", celula.get(2).text());
-                rowMap.put("PV/P", celula.get(3).text());
-                rowMap.put("PSR", celula.get(4).text());
-                rowMap.put("Div.Yield", celula.get(5).text());
-                rowMap.put("P/Ativo", celula.get(6).text());
-                rowMap.put("P/Cap.Giro", celula.get(7).text());
-                rowMap.put("P/EBIT", celula.get(8).text());
-                rowMap.put("P/Ativo Circ.Liq", celula.get(9).text());
-                rowMap.put("EV/EBIT", celula.get(10).text());
-                rowMap.put("EV/EBITDA", celula.get(11).text());
-                rowMap.put("Mrg Ebit", celula.get(12).text());
-                rowMap.put("Mrg. Líq.", celula.get(13).text());
-                rowMap.put("Liq. Corr.", celula.get(14).text());
-                rowMap.put("ROIC", celula.get(15).text());
-                rowMap.put("ROE", celula.get(16).text());
-                rowMap.put("Liq.2meses", celula.get(17).text());
-                rowMap.put("Patrim. Líq", celula.get(18).text());
-                rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
-                rowMap.put("Cresc. Rec.5a", celula.get(20).text());
-
-                // Adiciona o mapa à lista
-                jsonData.add(rowMap);
+                // Chama o método setarDadoDaTabelaNoJson
+                setarDadoDaTabelaNoJson(linha_tr, data);
             }
         }
+
         // Retornar lista em json
-        return jsonData;
+        return data;
     }
 
     // Retorna todos os papeis por setor
@@ -170,7 +179,7 @@ public class AcoesService {
         Element table = document.select("table").first();
 
         // Cria uma lista para armazenar os dados da tabela
-        List<Map<String, String>> jsonData = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<>();
 
         // Verifica se a tabela foi encontrada
         if (table != null) {
@@ -181,41 +190,14 @@ public class AcoesService {
             // O HTML já retorna todos os dados do setor que foram passados, portanto, não é necessário adicionar uma condição
             for (Element linha : linhas_table) {
                 // Obtenha a célula da linha(tr)
-                Elements celula = linha.select("td");
+                Elements linha_tr = linha.select("td");
 
-                // Criar um mapa para representar a linha
-                Map<String, String> rowMap = new LinkedHashMap<>();
-
-                // Adicione os dados ao mapa
-                rowMap.put("Papel", celula.get(0).text());
-                rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
-                rowMap.put("Cotação", celula.get(1).text());
-                rowMap.put("P/L", celula.get(2).text());
-                rowMap.put("PV/P", celula.get(3).text());
-                rowMap.put("PSR", celula.get(4).text());
-                rowMap.put("Div.Yield", celula.get(5).text());
-                rowMap.put("P/Ativo", celula.get(6).text());
-                rowMap.put("P/Cap.Giro", celula.get(7).text());
-                rowMap.put("P/EBIT", celula.get(8).text());
-                rowMap.put("P/Ativo Circ.Liq", celula.get(9).text());
-                rowMap.put("EV/EBIT", celula.get(10).text());
-                rowMap.put("EV/EBITDA", celula.get(11).text());
-                rowMap.put("Mrg Ebit", celula.get(12).text());
-                rowMap.put("Mrg. Líq.", celula.get(13).text());
-                rowMap.put("Liq. Corr.", celula.get(14).text());
-                rowMap.put("ROIC", celula.get(15).text());
-                rowMap.put("ROE", celula.get(16).text());
-                rowMap.put("Liq.2meses", celula.get(17).text());
-                rowMap.put("Patrim. Líq", celula.get(18).text());
-                rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
-                rowMap.put("Cresc. Rec.5a", celula.get(20).text());
-
-                // Adicione o mapa à lista
-                jsonData.add(rowMap);
+                // Chama o método setarDadoDaTabelaNoJson
+                setarDadoDaTabelaNoJson(linha_tr, data);
             }
         }
         // Retornar lista em json
-        return jsonData;
+        return data;
     }
 
     // Retorna um papel que foi passado por parâmetro, juntamente com os indicadores
@@ -234,7 +216,7 @@ public class AcoesService {
         Element table = document.select("table").first();
 
         // Cria uma lista para armazenar os dados da tabela
-        List<Map<String, String>> jsonData = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<>();
 
         // Verifica se a tabela foi encontrada
         if (table != null) {
@@ -245,48 +227,19 @@ public class AcoesService {
             // Iterar sobre as linhas da tabela
             for (Element linha : linhas_table) {
                 // Obtém a célula da linha
-                Elements celula = linha.select("td");
+                Elements linha_tr = linha.select("td");
 
                 // Aqui é a condição para verificar se o papel descrito na URL é igual ao da linha da TABLE
-                if (celula.get(0).text().equals(papel)) {
+                if (linha_tr.get(0).text().equals(papel)) {
 
-                    // Cria um mapa para representar a linha(tr)
-                    Map<String, String> rowMap = new LinkedHashMap<>();
+                    // Chama o método setarDadoDaTabelaNoJson
+                    setarDadoDaTabelaNoJson(linha_tr, data);
 
-                    // Adicione os dados ao mapa
-                    rowMap.put("Papel", celula.get(0).text());
-                    rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
-                    rowMap.put("Cotação", celula.get(1).text());
-                    rowMap.put("P/L", celula.get(2).text());
-                    rowMap.put("PV/P", celula.get(3).text());
-                    rowMap.put("PSR", celula.get(4).text());
-                    rowMap.put("Div.Yield", celula.get(5).text());
-                    rowMap.put("P/Ativo", celula.get(6).text());
-                    rowMap.put("P/Cap.Giro", celula.get(7).text());
-                    rowMap.put("P/EBIT", celula.get(8).text());
-                    rowMap.put("P/Ativo Circ.Liq", celula.get(9).text());
-                    rowMap.put("EV/EBIT", celula.get(10).text());
-                    rowMap.put("EV/EBITDA", celula.get(11).text());
-                    rowMap.put("Mrg Ebit", celula.get(12).text());
-                    rowMap.put("Mrg. Líq.", celula.get(13).text());
-                    rowMap.put("Liq. Corr.", celula.get(14).text());
-                    rowMap.put("ROIC", celula.get(15).text());
-                    rowMap.put("ROE", celula.get(16).text());
-                    rowMap.put("Liq.2meses", celula.get(17).text());
-                    rowMap.put("Patrim. Líq", celula.get(18).text());
-                    rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
-                    rowMap.put("Cresc. Rec.5a", celula.get(20).text());
-
-                    // Adiciona o mapa à lista
-                    jsonData.add(rowMap);
-
-                    // Finaliza o For para retornar mais rapidamente
-                    break;
                 }
             }
         }
         // Retornar lista em json
-        return jsonData;
+        return data;
     }
 
     // Retorna todos os papéis pela ordem do indicador que foi passado
@@ -306,7 +259,7 @@ public class AcoesService {
         Element table = document.select("table").first();
 
         // Criar uma lista para armazenar os dados da tabela
-        List<Map<String, String>> jsonData = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<>();
 
         // Verifica se a tabela foi encontrada
         if (table != null) {
@@ -316,41 +269,14 @@ public class AcoesService {
             // Iterar sobre as linhas da tabela
             for (Element linha : linhas_table) {
                 // Célula da linha(tr) do HTML
-                Elements celula = linha.select("td");
+                Elements linha_tr = linha.select("td");
 
-                // Mapa para representar a linha
-                Map<String, String> rowMap = new LinkedHashMap<>();
-
-                // Adiciona os dados ao Map,
-                rowMap.put("Papel", celula.get(0).text());
-                rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
-                rowMap.put("Cotação", celula.get(1).text());
-                rowMap.put("P/L", celula.get(2).text());
-                rowMap.put("PV/P", celula.get(3).text());
-                rowMap.put("PSR", celula.get(4).text());
-                rowMap.put("Div.Yield", celula.get(5).text());
-                rowMap.put("P/Ativo", celula.get(6).text());
-                rowMap.put("P/Cap.Giro", celula.get(7).text());
-                rowMap.put("P/EBIT", celula.get(8).text());
-                rowMap.put("P/Ativo Circ.Liq", celula.get(9).text());
-                rowMap.put("EV/EBIT", celula.get(10).text());
-                rowMap.put("EV/EBITDA", celula.get(11).text());
-                rowMap.put("Mrg Ebit", celula.get(12).text());
-                rowMap.put("Mrg. Líq.", celula.get(13).text());
-                rowMap.put("Liq. Corr.", celula.get(14).text());
-                rowMap.put("ROIC", celula.get(15).text());
-                rowMap.put("ROE", celula.get(16).text());
-                rowMap.put("Liq.2meses", celula.get(17).text());
-                rowMap.put("Patrim. Líq", celula.get(18).text());
-                rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
-                rowMap.put("Cresc. Rec.5a", celula.get(20).text());
-
-                // Adicione o mapa à lista
-                jsonData.add(rowMap);
+                // Chama o método setarDadoDaTabelaNoJson
+                setarDadoDaTabelaNoJson(linha_tr, data);
             }
         }
         // Retornar lista em json
-        return jsonData;
+        return data;
     }
 
     // Retorna todos os papéis pela ordem de maior similaridade que foi passado
@@ -369,7 +295,7 @@ public class AcoesService {
         Element table = document.select("table").first();
 
         // Cria uma lista para armazenar os dados da tabela
-        List<Map<String, String>> jsonData = new ArrayList<>();
+        List<Map<String, String>> data = new ArrayList<>();
 
         // Verifica se a tabela foi encontrada
         if (table != null) {
@@ -384,59 +310,37 @@ public class AcoesService {
             for (Element linha : linhas_table) {
 
                 // Obtém a célula da linha
-                Elements celula = linha.select("td");
+                Elements linha_tr = linha.select("td");
 
                 // Recupera o nome da empresa, retira as siglas e muda a String para LowCase para melhorar o calcúlo da similaridade
-                String empresa = celula.get(0).select("span").attr("title").toLowerCase().replaceAll("\\s", "").replaceAll("\\s|banco|s\\.a\\.|sa|s/a|uni|-", "");
+                String empresa = linha_tr.get(0).select("span").attr("title").toLowerCase().replaceAll("\\s", "").replaceAll("\\s|banco|s\\.a\\.|sa|s/a|uni|-", "");
 
                 // Aqui é calculado o quanto o Termo é Parecido com a Empresa da célula. Sendo que 1.0 é idêntico
                 double similaridade = StringUtils.getJaroWinklerDistance(termo.toLowerCase(), empresa);
 
-                // Aqui o empresa.contains() vê se o termo está dentro da String da empresa
-                if(similaridade >= 0.85 || empresa.contains(termo.toLowerCase())){
+                // Aqui, empresa.contains() verifica se o termo está dentro da String da empresa
+                if (similaridade >= 0.80 || empresa.contains(termo.toLowerCase())) {
 
-                    // Criar um mapa para representar a linha
-                    Map<String, String> rowMap = new LinkedHashMap<>();
+                    // Chama o método setarDadoDaTabelaNoJson
+                    setarDadoDaTabelaNoJson(linha_tr, data);
 
-                    // Adicione os dados ao mapa
-                    rowMap.put("Papel", celula.get(0).text());
-                    rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
-                    rowMap.put("Cotação", celula.get(1).text());
-                    rowMap.put("P/L", celula.get(2).text());
-                    rowMap.put("PV/P", celula.get(3).text());
-                    rowMap.put("PSR", celula.get(4).text());
-                    rowMap.put("Div.Yield", celula.get(5).text());
-                    rowMap.put("P/Ativo", celula.get(6).text());
-                    rowMap.put("P/Cap.Giro", celula.get(7).text());
-                    rowMap.put("P/EBIT", celula.get(8).text());
-                    rowMap.put("P/Ativo Circ.Liq", celula.get(9).text());
-                    rowMap.put("EV/EBIT", celula.get(10).text());
-                    rowMap.put("EV/EBITDA", celula.get(11).text());
-                    rowMap.put("Mrg Ebit", celula.get(12).text());
-                    rowMap.put("Mrg. Líq.", celula.get(13).text());
-                    rowMap.put("Liq. Corr.", celula.get(14).text());
-                    rowMap.put("ROIC", celula.get(15).text());
-                    rowMap.put("ROE", celula.get(16).text());
-                    rowMap.put("Liq.2meses", celula.get(17).text());
-                    rowMap.put("Patrim. Líq", celula.get(18).text());
-                    rowMap.put("Dív.Brut/ Patrim.", celula.get(19).text());
-                    rowMap.put("Cresc. Rec.5a", celula.get(20).text());
+                    // Aqui é feita a ordenação; quanto maior a similaridade, maior será a hierarquia na lista
+                    if (maior_similaridade <= similaridade) {
 
-                    // Aqui é feito o ordenação; quanto maior a similaridade maior será a hierarquia na lista
-                    if(maior_similaridade <= similaridade){
                         maior_similaridade = similaridade;
-                        // Adiciona o mapa à lista
-                        jsonData.add(0,rowMap);
-                    }else{
-                        // Adicione o mapa à lista
-                        jsonData.add(rowMap);
-                    }
 
+                        // Remove o último elemento e armazena em uma variável
+                        Map<String, String> ultimoElemento = data.remove(data.size() - 1);
+
+                        // Adiciona essa variável no início da lista
+                        data.add(0, ultimoElemento);
+                    }
                 }
+
             }
         }
         // Retornar lista em json
-        return jsonData;
+        return data;
     } //
 
 }
