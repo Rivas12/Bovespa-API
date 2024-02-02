@@ -2,6 +2,7 @@ package com.bovespaApi.infra;
 
 import org.springframework.http.HttpStatus;
 
+// Classe para representar a mensagem de erro que será retornada para o usuário
 public class RestErrorMessage {
     private HttpStatus status;
     private String message;
