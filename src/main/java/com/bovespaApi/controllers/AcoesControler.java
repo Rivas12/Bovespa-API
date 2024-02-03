@@ -34,7 +34,7 @@ public class AcoesControler {
     }
 
     // Método para retornar os papeis que contém o termo pesquisado [LISTA DE PAPEIS]
-    @GetMapping("/papeis/setor/{setor}")
+    @GetMapping("/papeis/setor/{setor}/lista")
     public List<String> getPapeisPorSetor(@PathVariable String setor) throws IOException {
         return acoesService.getPapeisPorSetor(setor);
     }
@@ -45,7 +45,7 @@ public class AcoesControler {
     // Esse método retorna os papeis que contém o termo pesquisado
     @GetMapping("/papeis/indicadores")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
-        return acoesService.getPapeisEstatisticas();
+        return acoesService.getPapeisComIndicadores();
     }
 
     // Método para retornar os papeis que contém o termo pesquisado
@@ -57,7 +57,7 @@ public class AcoesControler {
     // Método para retornar os papeis que contém o termo pesquisado
     @GetMapping("/papeis/setor/{setor}/indicadores")
     public List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
-        return acoesService.getPapeisPorSetorEstatisticas(setor);
+        return acoesService.getPapeisPorSetorComIndicadores(setor);
     }
 
     // Método para retornar os papeis que contém o termo pesquisado
@@ -69,7 +69,7 @@ public class AcoesControler {
     // Método para retornar as estatísticas de um único papel
     @GetMapping("/papel/{papel}/indicadores")
     public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
-        return acoesService.getPapelEstatisticas(papel.toUpperCase());
+        return acoesService.getPapelComIndicadores(papel.toUpperCase());
     }
 
 }
