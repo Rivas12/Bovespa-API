@@ -24,9 +24,9 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Método para tratar exceção de recurso não encontrado
     @ExceptionHandler(IndexOutOfBoundsException.class)
-    private ResponseEntity<RestErrorMessage> listHandler(Exception ex) {
+    private ResponseEntity<RestErrorMessage> NumeroForaDoRagelistHandler(Exception ex) {
         // Cria um objeto RestErrorMessage com a mensagem de erro
-        RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.BAD_GATEWAY, ex.getMessage());
+        RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
         // Retorna uma mensagem de erro amigável para o usuário
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatresponse);
     }
