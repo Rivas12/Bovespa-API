@@ -129,6 +129,11 @@ public class AcoesService {
     // Retorna todos os papeis por setor
     public List<String> getPapeisPorSetor(String setor) throws IOException {
 
+        // Verifica se o setor é válido e gerar uma exceção
+        if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
+            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação para saber os setores disponíveis");
+        }
+
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
 
@@ -165,6 +170,11 @@ public class AcoesService {
 
     // Retorna todos os papeis junto com os indicadores
     public List<Map<String, String>> getPapeisPorSetorComIndicadores(String setor) throws IOException {
+
+        // Verifica se o setor é válido e gerar uma exceção
+        if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
+            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação para saber os setores disponíveis");
+        }
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
