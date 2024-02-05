@@ -36,7 +36,7 @@ public class AcoesControler {
     // Método para retornar os papeis que contém o termo pesquisado [LISTA DE PAPEIS]
     @GetMapping("/papeis/setor/{setor}/lista")
     public List<String> getPapeisPorSetor(@PathVariable String setor) throws IOException {
-        return acoesService.getPapeisPorSetor(setor);
+        return acoesService.getPapeisPorSetorLista(setor);
     }
 
     // ===================================================================================
@@ -57,7 +57,7 @@ public class AcoesControler {
     // Método para retornar os papeis que contém o termo pesquisado
     @GetMapping("/papeis/setor/{setor}")
     public List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
-        return acoesService.getPapeisPorSetorComIndicadores(setor);
+        return acoesService.getPapeisPorSetor(setor);
     }
 
     // Método para retornar os papeis que contém o termo pesquisado
