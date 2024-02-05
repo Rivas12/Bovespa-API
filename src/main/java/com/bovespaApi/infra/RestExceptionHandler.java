@@ -16,7 +16,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     // Método para tratar exceção de site não encontrado
     @ExceptionHandler(UnknownHostException.class)
-    private ResponseEntity<RestErrorMessage> siteNaoEncontradoHandler(Exception ex) {
+    private ResponseEntity<RestErrorMessage> siteNaoEncontradoHandler() {
         // Cria um objeto RestErrorMessage com a mensagem de erro
         RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.INTERNAL_SERVER_ERROR, "Site não encontrado, verifique se escreveu o endereço corretamente");
         // Retorna uma mensagem de erro amigável para o usuário
