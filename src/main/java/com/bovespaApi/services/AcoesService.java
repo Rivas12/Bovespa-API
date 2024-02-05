@@ -259,7 +259,7 @@ public class AcoesService {
     }
 
     // Retorna todos os papéis pela ordem do indicador que foi passado
-    public List<Map<String, String>> getPapelPorOrdem(String chave) throws IOException {
+    public List<Map<String, String>> getPapelPorOrdem(String chave, String cresc_desc) throws IOException {
 
         // URL do site da tabela
         String url = "https://www.fundamentus.com.br/resultado.php";
@@ -287,8 +287,45 @@ public class AcoesService {
                 // Célula da linha(tr) do HTML
                 Elements linha_tr = linha.select("td");
 
-                // Chama o método setarDadoDaTabelaNoJson
-                setarDadoDaTabelaNoJson(linha_tr, data);
+                // Cria um mapa para representar a linha
+                Map<String, String> rowMap = new LinkedHashMap<>();
+
+                // Adiciona os dados ao mapa
+                rowMap.put("Papel", linha_tr.get(0).text());
+                rowMap.put("Empresa", linha_tr.get(0).select("span").attr("title"));
+                rowMap.put("Cotação", linha_tr.get(1).text());
+                rowMap.put("P/L", linha_tr.get(2).text());
+                rowMap.put("PV/P", linha_tr.get(3).text());
+                rowMap.put("PSR", linha_tr.get(4).text());
+                rowMap.put("Div.Yield", linha_tr.get(5).text());
+                rowMap.put("P/Ativo", linha_tr.get(6).text());
+                rowMap.put("P/Cap.Giro", linha_tr.get(7).text());
+                rowMap.put("P/EBIT", linha_tr.get(8).text());
+                rowMap.put("P/Ativo Circ.Liq", linha_tr.get(9).text());
+                rowMap.put("EV/EBIT", linha_tr.get(10).text());
+                rowMap.put("EV/EBITDA", linha_tr.get(11).text());
+                rowMap.put("Mrg Ebit", linha_tr.get(12).text());
+                rowMap.put("Mrg. Líq.", linha_tr.get(13).text());
+                rowMap.put("Liq. Corr.", linha_tr.get(14).text());
+                rowMap.put("ROIC", linha_tr.get(15).text());
+                rowMap.put("ROE", linha_tr.get(16).text());
+                rowMap.put("Liq.2meses", linha_tr.get(17).text());
+                rowMap.put("Patrim. Líq", linha_tr.get(18).text());
+                rowMap.put("Dív.Brut/ Patrim.", linha_tr.get(19).text());
+                rowMap.put("Cresc. Rec.5a", linha_tr.get(20).text());
+
+                // Verifica se o parâmetro 'cresc_desc' é válido e gera uma exceção
+                if ("cresc".equals(cresc_desc)) {
+                    // Adiciona o map ao início da lista para ordenar de forma crescente
+                    data.add(0, rowMap);
+                } else if ("desc".equals(cresc_desc)) {
+                    // Adiciona o map ao final da lista para ordenar de forma decrescente
+                    data.add(rowMap);
+                } else {
+                    // Gera uma exceção
+                    throw new IllegalArgumentException("Parece que você digitou um parâmetro que não existe, somente 'cresc' ou 'desc' são aceitos");
+                }
+
             }
         }
         // Retornar lista em json

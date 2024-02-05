@@ -49,9 +49,9 @@ public class AcoesControler {
     }
 
     // Método para retornar os papeis que contém o termo pesquisado
-    @GetMapping("/papeis/ordernar/{chave}")
-    public List<Map<String, String>> getPapelPorOrdem(@PathVariable String chave) throws IOException {
-        return acoesService.getPapelPorOrdem(chave);
+    @GetMapping("/papeis/ordernar_por/{chave}/{cresc_desc}")
+    public List<Map<String, String>> getPapelPorOrdem(@PathVariable String chave,@PathVariable String cresc_desc) throws IOException {
+        return acoesService.getPapelPorOrdem(chave, cresc_desc);
     }
 
     // Método para retornar os papeis que contém o termo pesquisado
