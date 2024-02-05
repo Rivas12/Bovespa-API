@@ -8,6 +8,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 
 @ControllerAdvice
 // O Objetivo dessa Class é tratar as exceções que podem ocorrer na aplicação de forma mais elegante e amigável para o usuário
@@ -29,6 +30,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
         // Retorna uma mensagem de erro amigável para o usuário
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatresponse);
+    }
+
+    // Método para tratar exceção de recurso não encontrado
+    @ExceptionHandler(NoSuchElementException.class)
+    private ResponseEntity<RestErrorMessage> ListaVaziaHandler(Exception ex) {
+        // Cria um objeto RestErrorMessage com a mensagem de erro
+        RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.NOT_FOUND, ex.getMessage());
+        // Retorna uma mensagem de erro amigável para o usuário
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatresponse);
     }
 
 }
