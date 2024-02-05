@@ -250,6 +250,10 @@ public class AcoesService {
                 }
             }
         }
+        // Verifica se a lista está vazia e gera uma exceção
+        if(data.isEmpty()){
+            throw new NoSuchElementException("Parece que você digitou um papel que não existe, verifique se o papel existe e se está escrito corretamente");
+        }
         // Retornar lista em json
         return data;
     }
