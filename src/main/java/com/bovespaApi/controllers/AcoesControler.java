@@ -67,7 +67,7 @@ public class AcoesControler {
     }
 
     // Método para retornar as estatísticas de um único papel
-    @GetMapping("/papel/{papel}/indicadores")
+    @GetMapping("/papel/{papel}")
     public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
         return acoesService.getPapelComIndicadores(papel.toUpperCase());
     }
