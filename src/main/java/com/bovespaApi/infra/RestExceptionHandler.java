@@ -41,4 +41,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(threatresponse);
     }
 
+    // Método para tratar exceção de recurso não encontrado
+    @ExceptionHandler(IllegalArgumentException.class)
+    private ResponseEntity<RestErrorMessage> ErrorHandler(Exception ex) {
+        // Cria um objeto RestErrorMessage com a mensagem de erro
+        RestErrorMessage threatresponse = new RestErrorMessage(HttpStatus.BAD_REQUEST, ex.getMessage());
+        // Retorna uma mensagem de erro amigável para o usuário
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(threatresponse);
+    }
+
 }
