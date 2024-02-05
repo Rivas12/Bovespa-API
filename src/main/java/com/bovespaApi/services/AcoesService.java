@@ -127,7 +127,7 @@ public class AcoesService {
     }
 
     // Retorna todos os papeis por setor
-    public List<String> getPapeisPorSetor(String setor) throws IOException {
+    public List<String> getPapeisPorSetorLista(String setor) throws IOException {
 
         // Verifica se o setor é válido e gerar uma exceção
         if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
