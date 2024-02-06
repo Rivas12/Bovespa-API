@@ -27,6 +27,7 @@ A API é um serviço RESTful projetado para realizar web scraping no site fundam
 
 
 
+<br>
 
 ## Retorna Listas contendo papeis
 
@@ -60,10 +61,16 @@ Exemplo:
   GET acoes/acoes/papeis/lista
 ```
 
+<br>
+
 #### Retorna papeis por setor
 ```
   GET acoes/papeis/setor/{setor}/lista
 ```
+
+<br>
+<br>
+<br>
 
 ## Retorna um Json contendo indicadores
 Exemplo:
@@ -97,14 +104,14 @@ Exemplo:
 ]
 ```
 
+<br>
 
----
 #### Todos os papeis
 ```
   GET acoes/acoes/papeis
 ```
 
----
+<br>
 
 #### Todos os papeis por setor
 
@@ -116,7 +123,7 @@ Exemplo:
 | :---------- | :--------- | :------------------------------------------ |
 | `setor`      | `string` | **Obrigatório**. O setor que você quer |
 
----
+<br>
 
 #### Todos os papeis ordenadados por algum indicador ("P/L", "P/VP", "DY", ...) na ordem crescente ou decrescente
 
@@ -131,7 +138,7 @@ Exemplo:
 | `chave`      | `string` | **Obrigatório**. O setor que você quer |
 | `cresc_desc` | `string` | **Obrigatório**. crescente(cresc) ou decrescente(desc) |
 
----
+<br>
 
 #### Todos os papeis parecidos com o termo pesquisado, e ordenados por similaridade
 
@@ -143,7 +150,7 @@ Exemplo:
 | :---------- | :--------- | :-------------------------------------------------  |
 | `termo`      | `string`  | **Obrigatório**. Nome da empresa que quer pesquisar |
 
----
+<br>
 
 #### Retorna um único papel com indicadores
 
@@ -156,6 +163,10 @@ Exemplo:
 | `papel`     | `string`  | **Obrigatório**. Papel da empresa que quer buscar    |
 
 <br>
+<br>
+
+---
+
 <br>
 
 ## Respectivas chaves
@@ -235,17 +246,38 @@ Exemplo:
 | `Utilidades Domésticas`                   | `42`|
 | `Viagens e Lazer`                         | `43`|
 
+<br>
+
+---
+
+<br>
+
 ## Swagger 3
 Para usar o Swagger utilize:
+
 
 ```
 http://localhost:8080/swagger-ui/index.html
 ```
+
+<br>
+
+---
+
+<br>
+
 ## Tecnologias utilizadas
 - Java 17
+- Spring Boot
 - Swagger 3
 - J Unit
 - Jsoup
+- Maven
+
+<br>
+
+---
+
 ## Abrir e rodar o projeto
 
 1. Para rodar o projeto ultilize o git clone com a url:<br>https://github.com/Rivas12/Bovespa-API.git
@@ -261,6 +293,11 @@ http://localhost:8080/swagger-ui/index.html
 6. Clique com o botão direito no arquivo e escolha "Run 'BovespaApiApplication'"
 
 7. O aplicativo será iniciado e estará disponível em `http://localhost:8080`
+
+<br>
+
+---
+
 ## Autor
 
 [@Rivaldo Silveira - Programador](https://github.com/Rivas12)
