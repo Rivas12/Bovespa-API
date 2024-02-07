@@ -53,11 +53,6 @@ public class BovespaController {
         return acoesService.getPapeisPesquisa(termo);
     }
 
-    @Operation(summary = "JSON com um único papel e indicadores", description = "")
-    @GetMapping("/papel/{papel}")
-    public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
-        return acoesService.getPapelComIndicadores(papel.toUpperCase());
-    }
 
     @Operation(summary = "Lista com o nome de todas as empresas", description = "")
     @GetMapping("/bovespa/empresas")
