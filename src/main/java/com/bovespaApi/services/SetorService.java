@@ -163,8 +163,6 @@ public class SetorService {
             // Obter todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
-            String ultima_empresa = "";
-
             // Itera sobre as linhas da tabela
             for (Element linha : linhas_table) {
                 // Obtém a célula da linha
