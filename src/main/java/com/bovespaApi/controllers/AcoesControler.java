@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/acoes")
+@RequestMapping("/api")
 @Tag(name = "Ações Controller")
 public class AcoesControler {
 
@@ -54,7 +54,7 @@ public class AcoesControler {
         return acoesService.getPapelPorOrdem(chave, cresc_desc);
     }
 
-    // Método para retornar os papeis que contém o termo pesquisado
+    // Método para retornar os papeis que contém o setor pesquisado
     @GetMapping("/papeis/setor/{setor}")
     public List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
         return acoesService.getPapeisPorSetor(setor);
