@@ -15,14 +15,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Bovespa em geral", description = "Retorna informações sem filtros")
-public class AcoesControler {
+public class AcoesController {
 
     // Injeção de dependência do serviço de ações
     private final AcoesService acoesService;
 
     @Autowired
     // Construtor com a injeção de dependência do serviço de ações
-    public AcoesControler(AcoesService acoesService) {
+    public AcoesController(AcoesService acoesService) {
         this.acoesService = acoesService;
     }
 
