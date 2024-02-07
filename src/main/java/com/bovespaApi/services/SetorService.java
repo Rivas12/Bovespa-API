@@ -53,7 +53,7 @@ public class SetorService {
 
         // Verifica se o setor é válido e gerar uma exceção
         if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação para saber os setores disponíveis");
+            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
         }
 
         // URL do site da tabela
@@ -95,7 +95,7 @@ public class SetorService {
 
         // Verifica se o setor é válido e gerar uma exceção
         if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação para saber os setores disponíveis");
+            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
         }
 
         // URL do site da tabela
@@ -139,7 +139,7 @@ public class SetorService {
 
         // Verifica se o setor é válido e gerar uma exceção
         if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação para saber os setores disponíveis");
+            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
         }
 
         // URL do site da tabela
