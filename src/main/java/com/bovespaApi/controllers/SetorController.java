@@ -48,10 +48,5 @@ public class SetorController {
             return setorService.getEmpresas(setor);
         }
 
-        @Operation(summary = "JSON com todos os setores e suas chaves", description = "")
-        @GetMapping("/setores")
-        public List<Map<String, String>> getSetoresDaBolsa() throws IOException {
-                return setorService.getSetores();
-        }
 
 }
