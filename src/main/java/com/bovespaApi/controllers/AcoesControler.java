@@ -1,6 +1,7 @@
 package com.bovespaApi.controllers;
 
 import com.bovespaApi.services.AcoesService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "Ações Controller")
+@Tag(name = "Bovespa em geral", description = "Retorna informações sem filtros")
 public class AcoesControler {
 
     // Injeção de dependência do serviço de ações
@@ -25,37 +26,34 @@ public class AcoesControler {
         this.acoesService = acoesService;
     }
 
-    // Esses métodos retornam listas que contem o nome dos papeis ========================
 
-    // Método para retornar os papeis [LISTA DE PAPEIS]
-    @GetMapping("/papeis/lista")
+    @Operation(summary = "Lista com todos os papeis", description = "")
+    @GetMapping("/todos/papeis")
     public List<String> getPapeis() throws IOException {
         return acoesService.getPapeis();
     }
 
-    // ===================================================================================
 
-
-    // Esse método retorna os papeis que contém o termo pesquisado
-    @GetMapping("/papeis")
+    @Operation(summary = "JSON com todos os papeis e indicadores", description = "")
+    @GetMapping("/todos/indicadores")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
         return acoesService.getPapeisComIndicadores();
     }
 
-    // Método para retornar os papeis que contém o termo pesquisado
+    @Operation(summary = "JSON com todos os papeis por ordem do indicador desejado", description = "")
     @GetMapping("/papeis/ordernar_por/{chave}/{cresc_desc}")
     public List<Map<String, String>> getPapelPorOrdem(@PathVariable String chave,@PathVariable String cresc_desc) throws IOException {
         return acoesService.getPapelPorOrdem(chave, cresc_desc);
     }
 
 
-    // Método para retornar os papeis que contém o termo pesquisado
+    @Operation(summary = "JSON com todos os papeis que contém o termo pesquisado", description = "")
     @GetMapping("/papeis/pesquisa/{termo}")
     public  List<Map<String, String>> getPapeisPesquisa(@PathVariable String termo) throws IOException {
         return acoesService.getPapeisPesquisa(termo);
     }
 
-    // Método para retornar as estatísticas de um único papel
+    @Operation(summary = "JSON com um único papel e indicadores", description = "")
     @GetMapping("/papel/{papel}")
     public List<Map<String, String>> getPapelEstatisticas(@PathVariable String papel) throws IOException {
         return acoesService.getPapelComIndicadores(papel.toUpperCase());

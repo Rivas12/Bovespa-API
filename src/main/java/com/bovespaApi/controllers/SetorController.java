@@ -1,6 +1,7 @@
 package com.bovespaApi.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ import com.bovespaApi.services.SetorService;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "Setor Controller")
+@Tag(name = "Setores", description = "Retorna informações baseado nos setores")
 public class SetorController {
 
         // Injeção de dependência do serviço de ações
@@ -29,25 +30,25 @@ public class SetorController {
         }
 
 
-        // Método para retornar os papeis que contém o termo pesquisado [LISTA DE PAPEIS]
+        @Operation(summary = "Lista com todos os papeis", description = "")
         @GetMapping("/setor/{setor}/papeis")
         public List<String> getPapeisPorSetor(@PathVariable String setor) throws IOException {
             return setorService.getPapeis(setor);
         }
 
-        // Método para retornar os papeis que contém o setor pesquisado junto com os indicadores
+        @Operation(summary = "JSON com todos os papeis e indicadores", description = "")
         @GetMapping("/setor/{setor}/indicadores")
         public List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
             return setorService.getIndicadores(setor);
         }
 
-        // Método para retornar os papeis que contém o setor pesquisado junto com os indicadores
+        @Operation(summary = "Lista com o nome de todas as empresas por setor", description = "")
         @GetMapping("/setor/{setor}/empresas")
         public List<String> getEmpresasPorSetor(@PathVariable String setor) throws IOException {
             return setorService.getEmpresas(setor);
         }
 
-        // Método para retornar os papeis que contém o setor pesquisado junto com os indicadores
+        @Operation(summary = "JSON com todos os setores e suas chaves", description = "")
         @GetMapping("/setores")
         public List<Map<String, String>> getSetoresDaBolsa() throws IOException {
                 return setorService.getSetores();
