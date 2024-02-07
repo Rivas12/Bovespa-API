@@ -8,10 +8,7 @@ import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class SetorService {
@@ -166,16 +163,22 @@ public class SetorService {
             // Obter todas as linhas da tabela
             Elements linhas_table = table.select("tbody tr");
 
+            String ultima_empresa = "";
+
             // Itera sobre as linhas da tabela
             for (Element linha : linhas_table) {
                 // Obtém a célula da linha
                 Elements celula = linha.select("td");
 
                 // Retira o nome da EMPRESA do HTML e adiciona o papel à lista
-                listData.add(celula.get(0).select("span").attr("title"));
+                String nome_empresa = celula.get(0).select("span").attr("title");
+                listData.add(nome_empresa);
             }
         }
-        // Retornar lista
-        return listData;
+        // Formatar lista para retirar empresas duplicatas
+        Set<String> listDataFormated = new HashSet<>(listData);
+
+        // Retornar lista formatada
+        return new ArrayList<>(listDataFormated);
     }
 }
