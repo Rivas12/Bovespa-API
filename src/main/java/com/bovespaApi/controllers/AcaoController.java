@@ -33,9 +33,14 @@ public class AcaoController {
     }
 
     @GetMapping("/acao/{papel}")
-    @Operation(summary = "JSON com todos os papeis e indicadores", description = "")
+    @Operation(summary = "JSON com indicadores do papel", description = "")
     public List<Map<String, String>> getPapel(@PathVariable String papel) throws IOException {
         return acaoService.getPapel(papel);
     }
 
+    @GetMapping("/acao/{papel}/proventos")
+    @Operation(summary = "JSON todos os proventos registrados. Dividendos, Juro sobre capital, etc...", description = "")
+    public List<Map<String, String>> getProventos(@PathVariable String papel) throws IOException {
+        return acaoService.getProventos(papel);
+    }
 }
