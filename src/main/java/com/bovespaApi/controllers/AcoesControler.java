@@ -59,5 +59,11 @@ public class AcoesControler {
         return acoesService.getPapelComIndicadores(papel.toUpperCase());
     }
 
+    @Operation(summary = "JSON com todos os indicadores e suas chaves", description = "")
+    @GetMapping("/indicadores")
+    public List<Map<String, String>> getIndicadoresdaBolsa() {
+        return acoesService.getIndicadores();
+    }
+
 }
 

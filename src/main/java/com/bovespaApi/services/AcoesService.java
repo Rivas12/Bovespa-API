@@ -307,6 +307,41 @@ public class AcoesService {
         }
         // Retornar lista em json
         return data;
-    } //
+    }
+
+    // Retorna todos os Indicadores da bolsa de forma estática
+    public List<Map<String, String>> getIndicadores(){
+        // Cria um mapa para representar os setores
+        Map<String, String> indicadores_list = new LinkedHashMap<>();
+
+        indicadores_list.put("P/L", "1");
+        indicadores_list.put("P/VP", "2");
+        indicadores_list.put("PSR", "3");
+        indicadores_list.put("Dividend Yield", "4");
+        indicadores_list.put("P/Ativos", "5");
+        indicadores_list.put("P/Cap. Giro", "6");
+        indicadores_list.put("P/Ativo Circ. Liq.", "7");
+        indicadores_list.put("P/EBIT", "8");
+        indicadores_list.put("EV/EBIT", "9");
+        indicadores_list.put("EV/EBITDA", "10");
+        indicadores_list.put("Margem EBIT", "11");
+        indicadores_list.put("Margem Líquida", "12");
+        indicadores_list.put("Liquidez Corrente", "13");
+        indicadores_list.put("ROIC", "14");
+        indicadores_list.put("ROE", "15");
+        indicadores_list.put("Liquidez das Ações", "16");
+        indicadores_list.put("Patrimônio Líquido", "17");
+        indicadores_list.put("Dív. Bruta sobre o Patrimônio Líquido", "18");
+        indicadores_list.put("Tx. de crescimento da Receita Líq", "19");
+
+        // Cria uma lista para armazenar os setores
+        List indicadores = new ArrayList<>();
+
+        // Adiciona o mapa à lista
+        indicadores.add(indicadores_list);
+
+        // Retornar lista (JSON)
+        return indicadores;
+    }
 
 }
