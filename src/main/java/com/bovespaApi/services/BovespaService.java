@@ -14,7 +14,7 @@ import java.util.*;
 // Para evitar retornos de dados irrelevantes, as empresas que não foram negociadas nos últimos 2 meses na bolsa foram excluídas desta API
 // Todas as requisições feitas são enviadas com um parâmetro 'negociada' (ON) para filtrar essas empresas irrelevantes
 @Service
-public class AcoesService {
+public class BovespaService {
 
     // SOLID - Single Responsibility Principle
     // Aqui realiza é setagem de linha(tr) da tabela no Json

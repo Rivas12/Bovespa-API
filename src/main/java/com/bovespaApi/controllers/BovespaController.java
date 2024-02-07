@@ -1,6 +1,6 @@
 package com.bovespaApi.controllers;
 
-import com.bovespaApi.services.AcoesService;
+import com.bovespaApi.services.BovespaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -15,14 +15,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Bovespa em geral", description = "Retorna informações sem filtros")
-public class AcoesController {
+public class BovespaController {
 
     // Injeção de dependência do serviço de ações
-    private final AcoesService acoesService;
+    private final BovespaService acoesService;
 
     @Autowired
     // Construtor com a injeção de dependência do serviço de ações
-    public AcoesController(AcoesService acoesService) {
+    public BovespaController(BovespaService acoesService) {
         this.acoesService = acoesService;
     }
 
