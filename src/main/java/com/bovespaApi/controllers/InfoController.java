@@ -33,7 +33,7 @@ public class InfoController {
 
     @Operation(summary = "JSON com todos os setores e suas chaves", description = "")
     @GetMapping("/info/setores")
-    public List<Map<String, String>> getSetoresDaBolsa() throws IOException {
+    public List<Map<String, String>> getSetoresDaBolsa() {
         return infoService.getSetores();
     }
 
