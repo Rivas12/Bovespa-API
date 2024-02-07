@@ -309,5 +309,44 @@ public class AcoesService {
         return data;
     }
 
+    // Retorna todos os nomes das empresas
+    public List<String> getEmpresas() throws IOException {
+
+        // URL do site da tabela
+        String url = "https://www.fundamentus.com.br/resultado.php";
+
+        // Criar uma conexão e passa parâmetros
+        Connection connection = Jsoup.connect(url).data("negociada", "ON");
+
+        // Conecta ao site via POST e obtém o HTML
+        Document document = connection.post();
+
+        // Seleciona a tabela
+        Element table = document.select("table").first();
+
+        // Cria uma lista para armazenar os dados da tabela
+        List<String> listData = new ArrayList<>();
+
+        // Verifica se a tabela foi encontrada
+        if (table != null) {
+            // Obter todas as linhas da tabela
+            Elements linhas_table = table.select("tbody tr");
+
+            // Itera sobre as linhas da tabela
+            for (Element linha : linhas_table) {
+                // Obtém a célula da linha
+                Elements celula = linha.select("td");
+
+                // Retira o nome da EMPRESA do HTML e adiciona o papel à lista
+                String nome_empresa = celula.get(0).select("span").attr("title");
+                listData.add(nome_empresa);
+            }
+        }
+        // Formatar lista para retirar empresas duplicatas
+        Set<String> listDataFormated = new HashSet<>(listData);
+
+        // Retornar lista formatada
+        return new ArrayList<>(listDataFormated);
+    }
 
 }

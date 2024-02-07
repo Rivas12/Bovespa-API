@@ -28,14 +28,14 @@ public class AcoesController {
 
 
     @Operation(summary = "Lista com todos os papeis", description = "")
-    @GetMapping("/todos/papeis")
+    @GetMapping("/bovespa/papeis")
     public List<String> getPapeis() throws IOException {
         return acoesService.getPapeis();
     }
 
 
     @Operation(summary = "JSON com todos os papeis e indicadores", description = "")
-    @GetMapping("/todos/indicadores")
+    @GetMapping("/bovespa/indicadores")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
         return acoesService.getPapeisComIndicadores();
     }
@@ -59,6 +59,11 @@ public class AcoesController {
         return acoesService.getPapelComIndicadores(papel.toUpperCase());
     }
 
+    @Operation(summary = "Lista com o nome de todas as empresas", description = "")
+    @GetMapping("/bovespa/empresas")
+    public List<String> getEmpresas() throws IOException {
+        return acoesService.getEmpresas();
+    }
 
 }
 
