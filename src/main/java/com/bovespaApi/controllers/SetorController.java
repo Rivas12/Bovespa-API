@@ -47,4 +47,10 @@ public class SetorController {
             return setorService.getEmpresas(setor);
         }
 
+        // Método para retornar os papeis que contém o setor pesquisado junto com os indicadores
+        @GetMapping("/setores")
+        public List<Map<String, String>> getSetoresDaBolsa() throws IOException {
+                return setorService.getSetores();
+        }
+
 }
