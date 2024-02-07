@@ -30,7 +30,7 @@ public class SetorController {
 
 
         // Método para retornar os papeis que contém o termo pesquisado [LISTA DE PAPEIS]
-        @GetMapping("/setor/{setor}/lista")
+        @GetMapping("/setor/{setor}/papeis")
         public List<String> getPapeisPorSetor(@PathVariable String setor) throws IOException {
             return setorService.getPapeis(setor);
         }
@@ -39,6 +39,12 @@ public class SetorController {
         @GetMapping("/setor/{setor}/indicadores")
         public List<Map<String, String>> getPapeisPorSetorEstatisticas(@PathVariable String setor) throws IOException {
             return setorService.getIndicadores(setor);
+        }
+
+        // Método para retornar os papeis que contém o setor pesquisado junto com os indicadores
+        @GetMapping("/setor/{setor}/empresas")
+        public List<String> getEmpresasPorSetor(@PathVariable String setor) throws IOException {
+            return setorService.getEmpresas(setor);
         }
 
 }
