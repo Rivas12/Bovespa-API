@@ -31,6 +31,7 @@ public class FiltroController {
         this.filtroService = filtroService;
     }
 
+    // Método que retorna as ações com todos os filtros disponíveis
     @GetMapping("/filtro")
     public List<Map<String, String>> getFiltro(
             @Parameter(description = "P/L (Preço/Lucro) mínimo")
@@ -51,10 +52,10 @@ public class FiltroController {
             @Parameter(description = "PSR (Preço/Salário da Receita) máximo")
             @RequestParam(required = false, defaultValue = "") String psr_max,
 
-            @Parameter(description = "Dividend Yield mínimo")
+            @Parameter(description = "Dividend Yield mínimo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String divy_min,
 
-            @Parameter(description = "Dividend Yield máximo")
+            @Parameter(description = "Dividend Yield máximo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String divy_max,
 
             @Parameter(description = "Patrimônio Líquido Ativos mínimo")
@@ -81,28 +82,28 @@ public class FiltroController {
             @Parameter(description = "FGR (Fator de Graham) máximo")
             @RequestParam(required = false, defaultValue = "") String fgrah_max,
 
-            @Parameter(description = "Firma EBIT mínima")
+            @Parameter(description = "Firma EBIT mínima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String firma_ebit_min,
 
-            @Parameter(description = "Firma EBIT máxima")
+            @Parameter(description = "Firma EBIT máxima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String firma_ebit_max,
 
-            @Parameter(description = "Firma EBITDA mínima")
+            @Parameter(description = "Firma EBITDA mínima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String firma_ebitda_min,
 
-            @Parameter(description = "Firma EBITDA máxima")
+            @Parameter(description = "Firma EBITDA máxima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String firma_ebitda_max,
 
-            @Parameter(description = "Margem EBIT mínima")
+            @Parameter(description = "Margem EBIT mínima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String margemebit_min,
 
-            @Parameter(description = "Margem EBIT máxima")
+            @Parameter(description = "Margem EBIT máxima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String margemebit_max,
 
-            @Parameter(description = "Margem Líquida mínima")
+            @Parameter(description = "Margem Líquida mínima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String margemliq_min,
 
-            @Parameter(description = "Margem Líquida máxima")
+            @Parameter(description = "Margem Líquida máxima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String margemliq_max,
 
             @Parameter(description = "Liquidez Corrente mínima")
@@ -111,16 +112,16 @@ public class FiltroController {
             @Parameter(description = "Liquidez Corrente máxima")
             @RequestParam(required = false, defaultValue = "") String liqcorr_max,
 
-            @Parameter(description = "ROIC (Retorno sobre o Capital Investido) mínimo")
+            @Parameter(description = "ROIC (Retorno sobre o Capital Investido) mínimo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String roic_min,
 
-            @Parameter(description = "ROIC (Retorno sobre o Capital Investido) máximo")
+            @Parameter(description = "ROIC (Retorno sobre o Capital Investido) máximo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String roic_max,
 
-            @Parameter(description = "ROE (Retorno sobre o Patrimônio Líquido) mínimo")
+            @Parameter(description = "ROE (Retorno sobre o Patrimônio Líquido) mínimo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String roe_min,
 
-            @Parameter(description = "ROE (Retorno sobre o Patrimônio Líquido) máximo")
+            @Parameter(description = "ROE (Retorno sobre o Patrimônio Líquido) máximo. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String roe_max,
 
             @Parameter(description = "Liquidez mínima")
@@ -141,19 +142,19 @@ public class FiltroController {
             @Parameter(description = "Dívida Bruta máxima")
             @RequestParam(required = false, defaultValue = "") String divbruta_max,
 
-            @Parameter(description = "Taxa de Crescimento de Receita mínima")
+            @Parameter(description = "Taxa de Crescimento de Receita mínima. Medido em porcentagem use 0.01 sendo 1% a 1 sendo 100%")
             @RequestParam(required = false, defaultValue = "") String tx_cresc_rec_min,
 
-            @Parameter(description = "Taxa de Crescimento de Receita máxima")
+            @Parameter(description = "Taxa de Crescimento de Receita máxima. Medido em porcentagem (0.01 sendo 1% a 1 sendo 100%)")
             @RequestParam(required = false, defaultValue = "") String tx_cresc_rec_max,
 
-            @Parameter(description = "Setor")
+            @Parameter(description = "Setor. Use a chave do setor para filtrar os resultados. Acesse a documentação para ver as chaves ou use api/info/setores")
             @RequestParam(required = false, defaultValue = "") String setor,
 
             @Parameter(description = "Empresa negociada nos últimos 2 meses da bolsa. O parâmetro negociada deve ser ON ou OFF")
             @RequestParam(required = false, defaultValue = "ON") String negociada,
 
-            @Parameter(description = "Ordem")
+            @Parameter(description = "Ordem. Use as chaves dos indicadores para ordenar os resultados. Acesse a documentação para mais informações, use api/info/indicadores")
             @RequestParam(required = false, defaultValue = "") String ordem
 
     ) throws IOException {
