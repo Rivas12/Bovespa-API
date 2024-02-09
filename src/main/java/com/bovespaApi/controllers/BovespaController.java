@@ -46,14 +46,6 @@ public class BovespaController {
         return acoesService.getPapelPorOrdem(chave, cresc_desc);
     }
 
-
-    @Operation(summary = "JSON com todos os papeis que contém o termo pesquisado", description = "")
-    @GetMapping("/papeis/pesquisa/{termo}")
-    public  List<Map<String, String>> getPapeisPesquisa(@PathVariable String termo) throws IOException {
-        return acoesService.getPapeisPesquisa(termo);
-    }
-
-
     @Operation(summary = "Lista com o nome de todas as empresas", description = "")
     @GetMapping("/bovespa/empresas")
     public List<String> getEmpresas() throws IOException {
