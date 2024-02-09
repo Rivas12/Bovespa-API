@@ -2,15 +2,13 @@ package com.bovespaApi.controllers;
 
 
 import com.bovespaApi.services.FiltroService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -161,4 +159,11 @@ public class FiltroController {
         // Aqui você pode acessar e processar os parâmetros conforme necessário
         return filtroService.getFiltro(pl_min, pl_max, pvp_min, pvp_max, psr_min, psr_max, divy_min, divy_max, pativos_min, pativos_max, pcapgiro_min, pcapgiro_max, pebit_min, pebit_max, fgrah_min, fgrah_max, firma_ebit_min, firma_ebit_max, firma_ebitda_min, firma_ebitda_max, margemebit_min, margemebit_max, margemliq_min, margemliq_max, liqcorr_min, liqcorr_max, roic_min, roic_max, roe_min, roe_max, liq_min, liq_max, patrim_min, patrim_max, divbruta_min, divbruta_max, tx_cresc_rec_min, tx_cresc_rec_max, setor, negociada, ordem);
     }
+
+    @Operation(summary = "JSON com todos os papeis que contém o termo pesquisado", description = "")
+    @GetMapping("filtro/pesquisa/{termo}")
+    public  List<Map<String, String>> getPapeisPesquisa(@PathVariable String termo) throws IOException {
+        return filtroService.getPapeisPesquisa(termo);
+    }
+
 }
