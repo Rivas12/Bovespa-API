@@ -33,18 +33,12 @@ public class BovespaController {
         return acoesService.getPapeis();
     }
 
-
     @Operation(summary = "JSON com todos os papeis e indicadores", description = "")
     @GetMapping("/bovespa/indicadores")
     public  List<Map<String, String>> getPapeisEstatisticas() throws IOException {
         return acoesService.getPapeisComIndicadores();
     }
 
-    @Operation(summary = "JSON com todos os papeis por ordem do indicador desejado", description = "")
-    @GetMapping("/papeis/ordernar_por/{chave}/{cresc_desc}")
-    public List<Map<String, String>> getPapelPorOrdem(@PathVariable String chave,@PathVariable String cresc_desc) throws IOException {
-        return acoesService.getPapelPorOrdem(chave, cresc_desc);
-    }
 
     @Operation(summary = "Lista com o nome de todas as empresas", description = "")
     @GetMapping("/bovespa/empresas")
