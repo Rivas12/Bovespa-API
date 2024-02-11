@@ -33,6 +33,7 @@ public class BovespaService {
         Map<String, String> dadosPost = new HashMap<>();
         List<String> data = new ArrayList<>();
         ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "empresas", data, dadosPost);
+        ReduzirCodigo.RemoverDuplicadas(data);
         return data;
     }
 
