@@ -40,7 +40,7 @@ public class ReduzirCodigo {
             } else if ("indicadores".equals(tipoRetorno)) {
                 for (Element linha : linhasTable) {
                     Elements celula = linha.select("td");
-                    Map<String, String> rowMap = new HashMap<>();
+                    Map<String, String> rowMap = new LinkedHashMap<>();
 
                     rowMap.put("Papel", celula.get(0).text());
                     rowMap.put("Empresa", celula.get(0).select("span").attr("title"));
