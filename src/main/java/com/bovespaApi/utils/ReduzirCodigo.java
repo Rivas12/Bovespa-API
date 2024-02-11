@@ -7,9 +7,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReduzirCodigo {
 
@@ -73,6 +71,12 @@ public class ReduzirCodigo {
         } else {
             throw new IOException("Tabela não encontrada na página.");
         }
+    }
+
+    public static void RemoverDuplicadas(List<String> data) {
+        Set<String> set = new HashSet<>(data);
+        data.clear();
+        data.addAll(set);
     }
 
 }
