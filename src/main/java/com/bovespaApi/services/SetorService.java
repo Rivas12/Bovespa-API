@@ -1,9 +1,7 @@
 package com.bovespaApi.services;
 
-import org.jsoup.Connection;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
+import com.bovespaApi.utils.ReduzirCodigo;
+
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
 
@@ -51,133 +49,38 @@ public class SetorService {
     // Retorna todos os papeis por setor
     public List<String> getPapeis(String setor) throws IOException {
 
-        // Verifica se o setor é válido e gerar uma exceção
-        if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
-        }
+        ReduzirCodigo.VerificaRangeDaLista("setor", setor);
 
-        // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php";
+        Map<String, String> dadosPost = new HashMap<>();
+        dadosPost.put("setor", setor);
+        List<String> data = new ArrayList<>();
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "papeis", data, dadosPost);
+        return data;
 
-        // Criar uma conexão e passa parâmetros
-        // Cada setor tem uma chave própria; Na documentação tem todos os setores por número
-        Connection connection = Jsoup.connect(url).data("setor", setor).data("negociada", "ON");
-
-        // Conecta ao site via POST e obtém o HTML
-        Document document = connection.post();
-
-        // Seleciona a tabela
-        Element table = document.select("table").first();
-
-        // Cria uma lista para armazenar os dados da tabela
-        List<String> listData = new ArrayList<>();
-
-        // Verifica se a tabela foi encontrada
-        if (table != null) {
-            // Obter todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
-
-            // Itera sobre as linhas da tabela
-            for (Element linha : linhas_table) {
-                // Obtém a célula da linha
-                Elements celula = linha.select("td");
-
-                // Retira o nome da EMPRESA do HTML e adiciona o papel à lista
-                listData.add(celula.get(0).text());
-            }
-        }
-        // Retornar lista
-        return listData;
     }
 
     // Retorna todos os papeis junto com os indicadores
     public List<Map<String, String>> getIndicadores(String setor) throws IOException {
 
-        // Verifica se o setor é válido e gerar uma exceção
-        if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
-        }
+        ReduzirCodigo.VerificaRangeDaLista("setor", setor);
 
-        // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php";
-
-        // Criar uma conexão e passa parâmetros
-        // Cada setor tem uma chave própria; na documentação tem todos os setores por número
-        // A chave 'negociada' significa que a ação foi negociada nos últimos 2 meses na bolsa
-        Connection connection = Jsoup.connect(url).data("setor", setor).data("negociada", "ON");
-
-        // Conecta ao site via POST e obtém o HTML
-        Document document = connection.post();
-
-        // Seleciona a tabela
-        Element table = document.select("table").first();
-
-        // Cria uma lista para armazenar os dados da tabela
+        Map<String, String> dadosPost = new HashMap<>();
+        dadosPost.put("setor", setor);
         List<Map<String, String>> data = new ArrayList<>();
-
-        // Verifica se a tabela foi encontrada
-        if (table != null) {
-            // Obtém todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
-
-            // Itera sobre as linhas da tabela
-            // O HTML já retorna todos os dados do setor que foram passados, portanto, não é necessário adicionar uma condição
-            for (Element linha : linhas_table) {
-                // Obtenha a célula da linha(tr)
-                Elements linha_tr = linha.select("td");
-
-                // Chama o método setarDadoDaTabelaNoJson
-                setarDadoDaTabelaNoJson(linha_tr, data);
-            }
-        }
-        // Retornar lista em json
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "indicadores", data, dadosPost);
         return data;
     }
 
     // Retorna todos os nomes das empresas por setor
     public List<String> getEmpresas(String setor) throws IOException {
 
-        // Verifica se o setor é válido e gerar uma exceção
-        if(Integer.parseInt(setor) > 43 || Integer.parseInt(setor) < 0){
-            throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
-        }
+        ReduzirCodigo.VerificaRangeDaLista("setor", setor);
 
-        // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php";
-
-        // Criar uma conexão e passa parâmetros
-        // Cada setor tem uma chave própria; Na documentação tem todos os setores por número
-        Connection connection = Jsoup.connect(url).data("setor", setor).data("negociada", "ON");
-
-        // Conecta ao site via POST e obtém o HTML
-        Document document = connection.post();
-
-        // Seleciona a tabela
-        Element table = document.select("table").first();
-
-        // Cria uma lista para armazenar os dados da tabela
-        List<String> listData = new ArrayList<>();
-
-        // Verifica se a tabela foi encontrada
-        if (table != null) {
-            // Obter todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
-
-            // Itera sobre as linhas da tabela
-            for (Element linha : linhas_table) {
-                // Obtém a célula da linha
-                Elements celula = linha.select("td");
-
-                // Retira o nome da EMPRESA do HTML e adiciona o papel à lista
-                String nome_empresa = celula.get(0).select("span").attr("title");
-                listData.add(nome_empresa);
-            }
-        }
-        // Formatar lista para retirar empresas duplicatas
-        Set<String> listDataFormated = new HashSet<>(listData);
-
-        // Retornar lista formatada
-        return new ArrayList<>(listDataFormated);
+        Map<String, String> dadosPost = new HashMap<>();
+        dadosPost.put("setor", setor);
+        List<String> data = new ArrayList<>();
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "empresas", data, dadosPost);
+        ReduzirCodigo.RemoverDuplicadas(data);
+        return data;
     }
-
 }
