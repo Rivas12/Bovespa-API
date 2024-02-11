@@ -79,4 +79,18 @@ public class ReduzirCodigo {
         data.addAll(set);
     }
 
+    // Verifica se o valor está dentro do range da lista
+    public static void VerificaRangeDaLista(String nomeIndice, String valor) {
+        if (nomeIndice.equals("setor")) {
+            if (Integer.parseInt(valor) < 0 || Integer.parseInt(valor) > 43) {
+                throw new IndexOutOfBoundsException("Parece que você digitou um setor que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
+            }
+        } else if (nomeIndice.equals("indicadores")) {
+            if (Integer.parseInt(valor) < 0 || Integer.parseInt(valor) > 19) {
+                throw new IndexOutOfBoundsException("Parece que você digitou um indicador que não existe, verifique a documentação ou use /setores para saber os setores disponíveis");
+            }
+        } else {
+            throw new IllegalArgumentException("O nome do índice não é válido");
+        }
+    }
 }
