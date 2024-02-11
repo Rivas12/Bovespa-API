@@ -1,5 +1,6 @@
 package com.bovespaApi.utils;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -93,4 +94,86 @@ public class ReduzirCodigo {
             throw new IllegalArgumentException("O nome do índice não é válido");
         }
     }
+
+    // Pesquisa e adiciona a lista
+    public static void PesquisaEAdicionarALista(String url, String termo, List<Map<String, String>> data, Map<String, String> dadosPost) throws IOException {
+        // Conexão inicial com o URL especificado
+        Connection connection = Jsoup.connect(url).data("negociada", "ON");
+
+        // Adicionando os dados POST à conexão
+        for (Map.Entry<String, String> entry : dadosPost.entrySet()) {
+            connection.data(entry.getKey(), entry.getValue());
+        }
+
+        // Realiza a requisição POST e obtém o documento HTML
+        Document document = connection.post();
+
+        // Seleciona a primeira tabela no documento, se houver
+        Element table = document.selectFirst("table");
+
+        // Verifica se a tabela foi encontrada
+        if (table != null) {
+            // Obtém as linhas da tabela
+            Elements linhasTable = table.select("tbody tr");
+
+            double maiorSimilaridade = 0;
+
+            // Itera sobre as linhas da tabela
+            for (Element linha : linhasTable) {
+                // Obtém o nome da empresa da linha e prepara para cálculo de similaridade
+                String empresa = linha.selectFirst("td").selectFirst("span").attr("title")
+                        .toLowerCase().replaceAll("\\s|banco|s\\.a\\.|sa|s/a|uni|-", "");
+
+                // Calcula a similaridade entre o termo de pesquisa e o nome da empresa
+                double similaridade = StringUtils.getJaroWinklerDistance(termo.toLowerCase(), empresa);
+
+                // Verifica se a similaridade é alta o suficiente ou se o termo está contido na empresa
+                if (similaridade >= 0.80 || empresa.contains(termo.toLowerCase())) {
+                    // Cria um mapa para armazenar os dados da linha
+                    Map<String, String> rowMap = new LinkedHashMap<>();
+
+                    // Obtém e armazena os dados da linha no mapa
+                    Elements colunas = linha.select("td");
+                    rowMap.put("Papel", colunas.get(0).text());
+                    rowMap.put("Empresa", colunas.get(0).selectFirst("span").attr("title"));
+                    rowMap.put("Cotação", colunas.get(1).text());
+                    rowMap.put("P/L", colunas.get(2).text());
+                    rowMap.put("P/VP", colunas.get(3).text());
+                    rowMap.put("PSR", colunas.get(4).text());
+                    rowMap.put("Div.Yield", colunas.get(5).text());
+                    rowMap.put("P/Ativo", colunas.get(6).text());
+                    rowMap.put("P/Cap.Giro", colunas.get(7).text());
+                    rowMap.put("P/EBIT", colunas.get(8).text());
+                    rowMap.put("P/Ativo Circ.Liq", colunas.get(9).text());
+                    rowMap.put("EV/EBIT", colunas.get(10).text());
+                    rowMap.put("EV/EBITDA", colunas.get(11).text());
+                    rowMap.put("Mrg Ebit", colunas.get(12).text());
+                    rowMap.put("Mrg. Líq.", colunas.get(13).text());
+                    rowMap.put("Liq. Corr.", colunas.get(14).text());
+                    rowMap.put("ROIC", colunas.get(15).text());
+                    rowMap.put("ROE", colunas.get(16).text());
+                    rowMap.put("Liq.2meses", colunas.get(17).text());
+                    rowMap.put("Patrim. Líq", colunas.get(18).text());
+                    rowMap.put("Dív.Brut/ Patrim.", colunas.get(19).text());
+                    rowMap.put("Cresc. Rec.5a", colunas.get(20).text());
+
+
+                    // Adiciona o mapa à lista de dados
+                    data.add(rowMap);
+
+                    // Atualiza a maior similaridade, se necessário
+                    if (maiorSimilaridade <= similaridade) {
+                        maiorSimilaridade = similaridade;
+
+                        // Move o último elemento para o início da lista
+                        data.add(0, data.remove(data.size() - 1));
+                    }
+                }
+            }
+        } else {
+            throw new IOException("Tabela não encontrada na página.");
+        }
+    }
+
+
 }
