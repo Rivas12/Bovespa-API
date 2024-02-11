@@ -13,8 +13,12 @@ import java.util.Map;
 
 public class ReduzirCodigo {
 
-    public static void EncontrarTabelaEAdicionarALista(String url, String tipoRetorno, List<?> data) throws IOException {
+    public static void EncontrarTabelaEAdicionarALista(String url, String tipoRetorno, List<?> data, Map<String, String> dadosPost) throws IOException {
         Connection connection = Jsoup.connect(url).data("negociada", "ON");
+        // Adicionar os pares de chave-valor da dataMap à conexão
+        for (Map.Entry<String, String> entry : dadosPost.entrySet()) {
+            connection.data(entry.getKey(), entry.getValue());
+        }
         Document document = connection.post();
         Element table = document.select("table").first();
 
