@@ -1,5 +1,6 @@
 package com.bovespaApi.services;
 
+import com.bovespaApi.utils.ReduzirCodigo;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -52,101 +53,17 @@ public class AcaoService {
     // Retorna um papel que foi passado por parâmetro, juntamente com os indicadores
     public List<Map<String, String>> getPapel(String papel) throws IOException{
 
-        // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/resultado.php";
-
-        // Criar uma conexão e passa parâmetros
-        Connection connection = Jsoup.connect(url).data("negociada", "ON");
-
-        // Conecta ao site via POST e obtém o HTML
-        Document document = connection.post();
-
-        // Selecionar a tabela
-        Element table = document.select("table").first();
-
-        // Cria uma lista para armazenar os dados da tabela
         List<Map<String, String>> data = new ArrayList<>();
-
-        // Verifica se a tabela foi encontrada
-        if (table != null) {
-
-            // Obtém todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
-
-            // Iterar sobre as linhas da tabela
-            for (Element linha : linhas_table) {
-                // Obtém a célula da linha
-                Elements linha_tr = linha.select("td");
-
-                // Aqui é a condição para verificar se o papel descrito na URL é igual ao da linha da TABLE
-                if (linha_tr.get(0).text().equals(papel.toUpperCase())) {
-
-                    // Chama o método setarDadoDaTabelaNoJson
-                    setarDadoDaTabelaNoJson(linha_tr, data);
-
-                    break;
-
-                }
-            }
-        }
-        // Verifica se a lista está vazia e gera uma exceção
-        if(data.isEmpty()){
-            throw new NoSuchElementException("Parece que você digitou um papel que não existe, verifique se o papel existe e se está escrito corretamente");
-        }
-        // Retornar lista em json
+        ReduzirCodigo.RetornoUnico("https://www.fundamentus.com.br/resultado.php", papel, "indicadores", data);
         return data;
+
     }
 
     // Retorna os proventos de um papel que foi passado por parâmetro
     public List<Map<String, String>> getProventos(String papel) throws IOException{
 
-        // URL do site da tabela
-        String url = "https://www.fundamentus.com.br/proventos.php";
-
-        // Criar uma conexão e passa parâmetros
-        Connection connection = Jsoup.connect(url).data("papel", papel.toUpperCase()).data("negociada", "ON");
-
-        // Conecta ao site via GET e obtém o HTML
-        Document document = connection.get();
-
-        // Selecionar a tabela
-        Element table = document.select("#resultado").first();
-
-        // Cria uma lista para armazenar os dados da tabela
         List<Map<String, String>> data = new ArrayList<>();
-
-
-        // Verifica se a tabela foi encontrada
-        if (table != null) {
-
-            // Obtém todas as linhas da tabela
-            Elements linhas_table = table.select("tbody tr");
-
-            // Iterar sobre as linhas da tabela
-            for (Element linha : linhas_table) {
-
-                // Obtém a célula da linha
-                Elements linha_tr = linha.select("td");
-                // Cria um mapa para representar a linha
-                Map<String, String> rowMap = new LinkedHashMap<>();
-
-                // Adiciona os dados ao mapa
-                rowMap.put("Valor", linha_tr.get(1).text());
-                rowMap.put("Tipo", linha_tr.get(2).text());
-                rowMap.put("Data do anuncio", linha_tr.get(0).text());
-                rowMap.put("Data de pagamento", linha_tr.get(3).text());
-                rowMap.put("Por quantas ações", linha_tr.get(4).text());
-
-                data.add(rowMap);
-            }
-
-        }
-
-        // Verifica se a lista está vazia e gera uma exceção
-        if(data.isEmpty()){
-            throw new NoSuchElementException("Parece que você digitou um papel que não existe, verifique se o papel existe e se está escrito corretamente");
-        }
-        // Retornar lista em json
+        ReduzirCodigo.RetornoUnico("https://www.fundamentus.com.br/proventos.php", papel, "proventos", data);
         return data;
     }
 }
