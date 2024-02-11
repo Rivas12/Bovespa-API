@@ -205,6 +205,7 @@ Exemplo:
 | `Agropecuária`                            | `1` |
 | `Água e Saneamento`                       | `2` |
 | `Alimentos Processados`                   | `3` |
+| `Serv.Méd.Hospit. Análises e Diagnósticos`| `4` |
 | `Automóveis e Motocicletas`               | `5` |
 | `Bebidas`                                 | `6` |
 | `Comércio`                                | `7` |
@@ -236,7 +237,6 @@ Exemplo:
 | `Programas e Serviços`                    | `33`|
 | `Químicos`                                | `34`|
 | `Securitizadoras de Recebíveis`           | `35`|
-| `Serv.Méd.Hospit. Análises e Diagnósticos`| `4` |
 | `Serviços Diversos`                       | `36`|
 | `Serviços Financeiros Diversos`           | `37`|
 | `Siderurgia e Metalurgia`                 | `38`|
