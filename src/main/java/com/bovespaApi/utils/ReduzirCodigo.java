@@ -96,14 +96,10 @@ public class ReduzirCodigo {
     }
 
     // Pesquisa e adiciona a lista
-    public static void PesquisaEAdicionarALista(String url, String termo, List<Map<String, String>> data, Map<String, String> dadosPost) throws IOException {
+    public static void PesquisaEAdicionarALista(String url, String termo, List<Map<String, String>> data) throws IOException {
         // Conexão inicial com o URL especificado
         Connection connection = Jsoup.connect(url).data("negociada", "ON");
 
-        // Adicionando os dados POST à conexão
-        for (Map.Entry<String, String> entry : dadosPost.entrySet()) {
-            connection.data(entry.getKey(), entry.getValue());
-        }
 
         // Realiza a requisição POST e obtém o documento HTML
         Document document = connection.post();

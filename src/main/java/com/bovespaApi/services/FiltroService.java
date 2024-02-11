@@ -37,8 +37,7 @@ public class FiltroService {
     public  List<Map<String, String>> getPapeisPesquisa(String termo) throws IOException {
 
         List<Map<String, String>> data = new ArrayList<>();
-        Map<String, String> dadosPost = new HashMap<>();
-        ReduzirCodigo.PesquisaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", termo, data, dadosPost);
+        ReduzirCodigo.PesquisaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", termo, data);
         // Retornar lista em json
         return data;
         
