@@ -14,22 +14,25 @@ public class BovespaService {
 
     // Retorna todos os papeis da bolsa
     public List<String> getPapeis() throws IOException {
+        Map<String, String> dadosPost = new HashMap<>();
         List<String> data = new ArrayList<>();
-        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "papeis", data);
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "papeis", data, dadosPost);
         return data;
     }
 
     // Retorna todos os papéis junto com os indicadores
     public List<Map<String, String>> getPapeisComIndicadores() throws IOException{
+        Map<String, String> dadosPost = new HashMap<>();
         List<Map<String, String>> data = new ArrayList<>();
-        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "indicadores", data);
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "indicadores", data, dadosPost);
         return data;
     }
 
     // Retorna todos os nomes das empresas
     public List<String> getEmpresas() throws IOException {
+        Map<String, String> dadosPost = new HashMap<>();
         List<String> data = new ArrayList<>();
-        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "empresas", data);
+        ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "empresas", data, dadosPost);
         return data;
     }
 
