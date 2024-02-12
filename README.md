@@ -19,7 +19,7 @@ A API é um serviço RESTful projetado para realizar web scraping no site fundam
       - [api/setor/{setor}/empresas](#-setores)
     - [Ação](#-ação)
         - [api/acao/{papel}](#-ação)
-        - [api/acao/{papel}/proventos](#-ação)
+        - [api/acao/{papel}/proventos](#-ação) 
     - [Filtros & Pesquisa](#-filtros--pesquisa)
       - [api/filtro](#-filtros--pesquisa)
       - [api/filtro/pesquisa/{termo}](#-filtros--pesquisa)
