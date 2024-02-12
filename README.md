@@ -86,7 +86,7 @@ Exemplo:
 Retorna uma lista contendo indicadores
 
 Exemplo:
-`j
+`
 [
   {
         "Papel": "PETR3",
