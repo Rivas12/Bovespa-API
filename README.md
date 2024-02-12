@@ -72,7 +72,7 @@ Exemplo:
 <br>
 <br>
 
-## Retorna um Json contendo indicadores 
+## Retorna um Json contendo indicadores
 Exemplo:
 ```
 [
