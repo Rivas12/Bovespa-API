@@ -5,6 +5,8 @@ import com.bovespaApi.services.FiltroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -19,6 +21,9 @@ import java.util.Map;
 @RequestMapping("/api")
 @Tag(name = "Filtros & Pesquisa", description = "Retorna informações com todos os filtros disponíveis.")
 public class FiltroController {
+
+    // Logger para registrar informações
+    private static final Logger log = LoggerFactory.getLogger(BovespaController.class);
 
     // Injeção de dependência do serviço de ações
     private final FiltroService filtroService;
@@ -156,6 +161,7 @@ public class FiltroController {
             @RequestParam(required = false, defaultValue = "") String ordem
 
     ) throws IOException {
+        log.info("chamou o endpoint /filtro");
         // Aqui você pode acessar e processar os parâmetros conforme necessário
         return filtroService.getFiltro(pl_min, pl_max, pvp_min, pvp_max, psr_min, psr_max, divy_min, divy_max, pativos_min, pativos_max, pcapgiro_min, pcapgiro_max, pebit_min, pebit_max, fgrah_min, fgrah_max, firma_ebit_min, firma_ebit_max, firma_ebitda_min, firma_ebitda_max, margemebit_min, margemebit_max, margemliq_min, margemliq_max, liqcorr_min, liqcorr_max, roic_min, roic_max, roe_min, roe_max, liq_min, liq_max, patrim_min, patrim_max, divbruta_min, divbruta_max, tx_cresc_rec_min, tx_cresc_rec_max, setor, negociada, ordem);
     }
@@ -163,6 +169,7 @@ public class FiltroController {
     @Operation(summary = "JSON com todos os papeis que contém o termo pesquisado", description = "")
     @GetMapping("filtro/pesquisa/{termo}")
     public  List<Map<String, String>> getPapeisPesquisa(@PathVariable String termo) throws IOException {
+        log.info("chamou o endpoint /filtro/pesquisa/{termo}");
         return filtroService.getPapeisPesquisa(termo);
     }
 

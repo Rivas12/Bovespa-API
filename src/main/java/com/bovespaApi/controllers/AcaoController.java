@@ -4,6 +4,8 @@ package com.bovespaApi.controllers;
 import com.bovespaApi.services.AcaoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,9 @@ import java.util.Map;
 @Tag(name = "Ação", description = "Retorna informações de uma única ação")
 public class AcaoController {
 
+    // Logger para registrar informações
+    private static final Logger log = LoggerFactory.getLogger(BovespaController.class);
+
     // Injeção de dependência do serviço de ações
     private final AcaoService acaoService;
 
@@ -33,12 +38,14 @@ public class AcaoController {
     @GetMapping("/acao/{papel}")
     @Operation(summary = "JSON com indicadores do papel", description = "")
     public List<Map<String, String>> getPapel(@PathVariable String papel) throws IOException {
+        log.info("chamou o endpoint /acao/{papel}");
         return acaoService.getPapel(papel);
     }
 
     @GetMapping("/acao/{papel}/proventos")
     @Operation(summary = "JSON todos os proventos registrados. Dividendos, Juro sobre capital, etc...", description = "")
     public List<Map<String, String>> getProventos(@PathVariable String papel) throws IOException {
+        log.info("chamou o endpoint /acao/{papel}/proventos");
         return acaoService.getProventos(papel);
     }
 }
