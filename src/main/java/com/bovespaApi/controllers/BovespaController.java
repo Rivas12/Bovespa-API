@@ -1,8 +1,5 @@
 package com.bovespaApi.controllers;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.bovespaApi.services.BovespaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,13 +12,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static com.bovespaApi.utils.ReduzirCodigo.log;
+
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Bovespa em geral", description = "Retorna informações sem filtros")
 public class BovespaController {
 
-    // Logger para registrar informações
-    private static final Logger log = LoggerFactory.getLogger(BovespaController.class);
 
     // Injeção de dependência do serviço de ações
     private final BovespaService acoesService;

@@ -5,8 +5,6 @@ import com.bovespaApi.services.FiltroService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -16,14 +14,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static com.bovespaApi.utils.ReduzirCodigo.log;
+
 
 @RestController
 @RequestMapping("/api")
 @Tag(name = "Filtros & Pesquisa", description = "Retorna informações com todos os filtros disponíveis.")
 public class FiltroController {
-
-    // Logger para registrar informações
-    private static final Logger log = LoggerFactory.getLogger(BovespaController.class);
 
     // Injeção de dependência do serviço de ações
     private final FiltroService filtroService;
