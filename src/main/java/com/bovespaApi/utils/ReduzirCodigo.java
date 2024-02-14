@@ -6,6 +6,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -260,6 +262,8 @@ public class ReduzirCodigo {
             throw new NoSuchElementException("Parece que você digitou um papel que não existe, verifique se o papel existe e se está escrito corretamente");
         }
     }
+
+    public static final Logger log = LoggerFactory.getLogger(ReduzirCodigo.class);
 
 }
 
