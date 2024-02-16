@@ -25,4 +25,12 @@ public class InfoControllerTestes {
                 .andExpect(jsonPath("$[0].P/L").value("1"));
     }
 
+    @Test
+    public void testGetSetoresdaBolsa() throws Exception {
+        mockMvc.perform(get("/api/info/setores"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$[0].Agropecuária").value("1"));
+    }
+
 }
