@@ -26,4 +26,13 @@ public class BovespaControllerTest {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$").isArray());
     }
+
+    @Test
+    public void testGetIndicadoresEndpoint() throws Exception {
+        mockMvc.perform(get("/api/bovespa/indicadores"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray());
+    }
+
 }
