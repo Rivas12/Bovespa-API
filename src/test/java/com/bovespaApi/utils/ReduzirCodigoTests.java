@@ -27,4 +27,10 @@ class ReduzirCodigoTests{
         assertThrows(IOException.class, () -> ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.urlerrad4.com.br/resultado", "papeis", data, dadosPost));
     }
 
+    @Test
+    void testVerificaRangeDaLista() {
+        assertDoesNotThrow(() -> ReduzirCodigo.VerificaRangeDaLista("setor", "10"));
+        assertThrows(IndexOutOfBoundsException.class, () -> ReduzirCodigo.VerificaRangeDaLista("setor", "1000"));
+    }
+
 }
