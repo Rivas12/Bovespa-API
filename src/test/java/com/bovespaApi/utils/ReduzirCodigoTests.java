@@ -33,4 +33,15 @@ class ReduzirCodigoTests{
         assertThrows(IndexOutOfBoundsException.class, () -> ReduzirCodigo.VerificaRangeDaLista("setor", "1000"));
     }
 
+    @Test
+    void testRemoverDuplicadas() {
+        List<String> data = new ArrayList<>();
+        data.add("teste");
+        data.add("teste");
+        data.add("teste");
+
+        ReduzirCodigo.RemoverDuplicadas(data);
+        assertEquals(1, data.size());
+    }
+
 }
