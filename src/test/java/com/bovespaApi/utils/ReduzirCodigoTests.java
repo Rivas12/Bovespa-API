@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.apache.coyote.http11.Constants.a;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReduzirCodigoTests{
@@ -42,6 +43,17 @@ class ReduzirCodigoTests{
 
         ReduzirCodigo.RemoverDuplicadas(data);
         assertEquals(1, data.size());
+    }
+
+    @Test
+    void testPesquisaEAdicionarALista() throws IOException {
+        List<Map<String, String>> data = new ArrayList<>();
+        ReduzirCodigo.PesquisaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "petrobras", data);
+        assertTrue(data.size() > 0);
+        data.clear();
+        // Pesquisa inválida pois o termo pesquisado não existe
+        ReduzirCodigo.PesquisaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "hsdahdvbhajdwvhdvahjdwjhaDJHSBVAGHJSda", data);
+        assertEquals(0, data.size());
     }
 
 }
