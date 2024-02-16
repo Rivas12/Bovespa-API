@@ -20,4 +20,11 @@ class ReduzirCodigoTests{
         assertFalse(data.isEmpty());
     }
 
+    @Test
+    void testUrlInvalida() throws IOException  {
+        Map<String, String> dadosPost = new HashMap<>();
+        List<String> data = new ArrayList<>();
+        assertThrows(IOException.class, () -> ReduzirCodigo.EncontrarTabelaEAdicionarALista("https://www.urlerrad4.com.br/resultado", "papeis", data, dadosPost));
+    }
+
 }
