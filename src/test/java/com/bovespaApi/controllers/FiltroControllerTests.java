@@ -25,6 +25,12 @@ public class FiltroControllerTests {
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
-
+    @Test
+    public void testGetPesquisaEndpoint() throws Exception {
+        String termo = "petrobras";
+        mockMvc.perform(get("/api/filtro/pesquisa/{termo}", termo))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
 
 }
