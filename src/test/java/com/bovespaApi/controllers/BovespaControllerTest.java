@@ -35,4 +35,12 @@ public class BovespaControllerTest {
                 .andExpect(jsonPath("$").isArray());
     }
 
+    @Test
+    public void testGetEmpresasEndpoint() throws Exception {
+        mockMvc.perform(get("/api/bovespa/empresas"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$").isArray());
+    }
+
 }
