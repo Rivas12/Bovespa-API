@@ -3,10 +3,7 @@ package com.bovespaApi.utils;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.apache.coyote.http11.Constants.a;
 import static org.junit.jupiter.api.Assertions.*;
@@ -54,6 +51,18 @@ class ReduzirCodigoTests{
         // Pesquisa inválida pois o termo pesquisado não existe
         ReduzirCodigo.PesquisaEAdicionarALista("https://www.fundamentus.com.br/resultado.php", "hsdahdvbhajdwvhdvahjdwjhaDJHSBVAGHJSda", data);
         assertEquals(0, data.size());
+    }
+
+    @Test
+    void testRetornoUnico() throws IOException {
+        List<Map<String, String>> data = new ArrayList<>();
+        ReduzirCodigo.RetornoUnico("https://www.fundamentus.com.br/resultado.php", "PETR4", "indicadores", data);
+        assertTrue(data.size() == 1);
+        data.clear();
+        ReduzirCodigo.RetornoUnico("https://www.fundamentus.com.br/resultado.php", "PETR4", "proventos", data);
+        assertTrue(data.size() > 0);
+        data.clear();
+        assertThrows(NoSuchElementException.class, () -> ReduzirCodigo.RetornoUnico("https://www.fundamentus.com.br/resultado.php", "NAOEXISTE4", "indicadores", data));
     }
 
 }
