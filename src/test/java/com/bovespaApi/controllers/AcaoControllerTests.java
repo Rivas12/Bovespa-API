@@ -30,4 +30,19 @@ public class AcaoControllerTests {
         mockMvc.perform(get("/api/acao/{papel}", papel))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void testGetProventosEndpoint() throws Exception {
+        String papel = "petr4"; // Defina um papel de exemplo para testar
+
+        mockMvc.perform(get("/api/acao/{papel}/proventos", papel))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // Adicione asserções adicionais conforme necessário
+                .andExpect(jsonPath("$").isArray()); // Verifica se a resposta é uma lista JSON
+
+        papel = "PAPEL_NAO_EXISTE4"; // Testa um papel que não existe
+        mockMvc.perform(get("/api/acao/{papel}/proventos", papel))
+                .andExpect(status().isNotFound());
+    }
 }
