@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.*;
 
-import static org.apache.coyote.http11.Constants.a;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReduzirCodigoTests{
