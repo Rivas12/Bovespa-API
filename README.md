@@ -563,6 +563,8 @@ Para usar o Swagger utilize no navegador o seguinte link:
 http://localhost:8080/swagger-ui/index.html
 ```
 
+![screenshot-swagger](https://github.com/Rivas12/Bovespa-API/assets/54002401/796fc1c3-44cc-4a59-abfc-3339840b9103)
+
 <br>
 
 ---
@@ -596,6 +598,7 @@ http://localhost:8080/swagger-ui/index.html
 6. Clique com o botão direito no arquivo e escolha "Run 'BovespaApiApplication'"
 
 7. O aplicativo será iniciado e estará disponível em `http://localhost:8080`
+
 
 <br>
 
