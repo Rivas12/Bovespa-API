@@ -6,6 +6,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static java.util.Optional.empty;
+import static java.util.function.Predicate.not;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -22,7 +24,16 @@ public class SetorControllerTests {
         mockMvc.perform(get("/api/setor/{setor}/papeis", setor))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType("application/json"))
-                .andExpect(jsonPath("$").isArray());
+                .andExpect(jsonPath("$").isNotEmpty());
+    }
+
+    @Test
+    public void testGetIndicadoresPorSetor() throws Exception{
+        String setor = "1";
+        mockMvc.perform(get("/api/setor/{setor}/indicadores", setor))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$").isNotEmpty());
     }
 
 }
