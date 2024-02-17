@@ -36,4 +36,13 @@ public class SetorControllerTests {
                 .andExpect(jsonPath("$").isNotEmpty());
     }
 
+    @Test
+    public void testGetEmpresasPorSetor() throws Exception{
+        String setor = "1";
+        mockMvc.perform(get("/api/setor/{setor}/empresas", setor))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(jsonPath("$").isNotEmpty());
+    }
+
 }
